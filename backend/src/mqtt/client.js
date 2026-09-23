@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import mqtt from "mqtt";
 import { config } from "../config.js";
-import { saveMessage } from "../db/index.js";
 
 let client;
 const listeners = new Set();
@@ -63,9 +62,6 @@ export function startMqtt() {
     for (const listener of listeners) {
       listener(message);
     }
-    // saveMessage(message).catch((err) => {
-    //   console.error(`[db] save failed: ${err.message}`);
-    // });
   });
 
   client.on("reconnect", () => {

@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { config } from "../config.js";
-import { listMessages } from "../db/index.js";
 import { onMqttMessage } from "../mqtt/client.js";
 
 export const messageRouter = Router();
@@ -32,11 +31,6 @@ messageRouter.get("/stream", (req, res) => {
   });
 });
 
-messageRouter.get("/", async (req, res, next) => {
-  try {
-    const result = await listMessages(req.query.limit);
-    res.json(result);
-  } catch (err) {
-    next(err);
-  }
+messageRouter.get("/", (_req, res) => {
+  res.json({ count: 0, messages: [] });
 });
