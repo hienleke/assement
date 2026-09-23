@@ -18,7 +18,7 @@ function optional(name) {
   return value;
 }
 
-const certificate = optional("MQTT_CERTIFICATE") ?? "emqxsl-ca.crt";
+const certificate = optional("MQTT_CERTIFICATE") ?? "cert/emqxsl-ca.crt";
 
 export const config = {
   port: Number(required("PORT", "3000")),
