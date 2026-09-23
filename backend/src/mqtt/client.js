@@ -83,6 +83,28 @@ export function startMqtt() {
   return client;
 }
 
+export function publishMqtt(topic, payload) {
+  if (!client?.connected) {
+    const error = new Error("mqtt not connected");
+    error.status = 503;
+    return Promise.reject(error);
+  }
+
+  const body = JSON.stringify(payload);
+  return new Promise((resolve, reject) => {
+    client.publish(topic, body, { qos: config.mqtt.qos }, (err) => {
+      if (err) {
+        const error = new Error(err.message || "mqtt publish failed");
+        error.status = 502;
+        reject(error);
+        return;
+      }
+      console.log(`[mqtt] published topic="${topic}"`, payload);
+      resolve();
+    });
+  });
+}
+
 export function stopMqtt() {
   if (!client) return Promise.resolve();
   return client.endAsync();

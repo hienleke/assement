@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import { beaconRouter } from "./routes/beacon.routes.js";
 import { messageRouter } from "./routes/message.routes.js";
 
 export function createApp() {
@@ -8,6 +9,7 @@ export function createApp() {
   app.disable("x-powered-by");
   app.use(cors());
   app.use(express.json());
+  app.use("/beacons", beaconRouter);
   app.use("/messages", messageRouter);
 
   app.use((_req, res) => {
