@@ -25,7 +25,8 @@ messageRouter.get("/stream", (req, res) => {
     res.write(": ping\n\n");
   }, 15000);
 
-  req.on("close", () => {
+  // GET request ends as soon as headers arrive. `res` stays open until the client disconnects.
+  res.on("close", () => {
     clearInterval(heartbeat);
     unsubscribe();
   });

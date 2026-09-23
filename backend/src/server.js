@@ -9,7 +9,6 @@ startMqtt();
 
 const server = app.listen(config.port, () => {
   console.log(`[http] listening on http://localhost:${config.port}`);
-  console.log("[http] GET /health");
   console.log("[http] GET /messages");
   console.log("[http] GET /messages/stream");
 });

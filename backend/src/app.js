@@ -1,6 +1,5 @@
 import cors from "cors";
 import express from "express";
-import { healthRouter } from "./routes/health.routes.js";
 import { messageRouter } from "./routes/message.routes.js";
 
 export function createApp() {
@@ -9,7 +8,6 @@ export function createApp() {
   app.disable("x-powered-by");
   app.use(cors());
   app.use(express.json());
-  app.use("/health", healthRouter);
   app.use("/messages", messageRouter);
 
   app.use((_req, res) => {

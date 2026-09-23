@@ -83,14 +83,6 @@ export function startMqtt() {
   return client;
 }
 
-export function mqttStatus() {
-  return {
-    connected: Boolean(client?.connected),
-    url: config.mqtt.url,
-    topic: config.mqtt.topic,
-  };
-}
-
 export function stopMqtt() {
   if (!client) return Promise.resolve();
   return client.endAsync();
