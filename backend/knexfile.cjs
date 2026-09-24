@@ -8,7 +8,12 @@ const shared = {
     directory: path.join(__dirname, "src/db/migrations"),
     loadExtensions: [".cjs"],
   },
+  seeds: {
+    directory: path.join(__dirname, "src/db/seeds"),
+    loadExtensions: [".cjs"],
+  },
 };
+
 
 module.exports = {
   development: shared,

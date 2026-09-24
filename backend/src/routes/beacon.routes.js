@@ -35,3 +35,13 @@ beaconRouter.post("/:id/led", async (req, res) => {
     res.status(err.status || 502).json({ error: err.message, topic });
   }
 });
+
+beaconRouter.get("/", async (req, res) => {
+  const beacons = await getBeacons();
+  res.json(beacons);
+});
+
+beaconRouter.get("/:id", async (req, res) => {
+  const beacon = await getBeacon(req.params.id);
+  res.json(beacon);
+});
