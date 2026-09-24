@@ -67,19 +67,22 @@ npx knex migrate:rollback --knexfile knexfile.cjs
 - `GET /messages/stream` streams MQTT messages as Server-Sent Events.
 - `GET /messages` returns `{ "count": 0, "messages": [] }`.
 - `POST /beacons/:id/led` with `{ "state": "on" }` or `{ "state": "off" }` publishes to `zena/{id}/cmd`.
-- `GET /beacons` and `GET /beacons/:id` call `getBeacons` and `getBeacon`, which are not defined yet.
+- `GET /beacons` returns every row from the `beacons` table. `GET /beacons/:id` returns one row, or `404` when that id does not exist.
 
 ## Layout
 
 ```
-src/server.js            start HTTP and MQTT
-src/app.js               Express app
-src/config.js            load .env
-src/routes/              HTTP routes
-src/mqtt/client.js       MQTT connection
-src/db/knex.js           Knex client
-src/db/migrations/       schema changes (.cjs)
-src/db/seeds/            seed data (.cjs)
-knexfile.cjs             Knex CLI config
-docker-compose.yml       Postgres and API
+src/server.js                 start HTTP and MQTT
+src/app.js                    mount routers and middleware
+src/config.js                 load .env
+src/routes/                   map URL to controller
+src/controllers/              handle the request
+src/models/                   read and write the database
+src/middleware/               validate input and handle errors
+src/mqtt/client.js            MQTT connection
+src/db/knex.js                Knex client
+src/db/migrations/            schema changes (.cjs)
+src/db/seeds/                 seed data (.cjs)
+knexfile.cjs                  Knex CLI config
+docker-compose.yml            Postgres and API
 ```
