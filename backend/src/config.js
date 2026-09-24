@@ -30,6 +30,6 @@ export const config = {
     certificate: path.resolve(backendRoot, certificate),
     clientId: required("MQTT_CLIENT_ID", `assessment-backend-${process.pid}`),
     topic: required("MQTT_TOPIC", "test"),
-    qos: Number(required("MQTT_QOS", "0")),
+    qos: Number(required("MQTT_QOS", "1")),
   },
 };

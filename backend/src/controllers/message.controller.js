@@ -14,7 +14,7 @@ export function streamMessages(req, res) {
 
   writeEvent("ready", { ok: true, topic: config.mqtt.topic });
 
-  const unsubscribe = onMqttMessage((message) => {
+  const { unsubscribe } = onMqttMessage((message) => {
     writeEvent("message", message);
   });
 
@@ -23,6 +23,3 @@ export function streamMessages(req, res) {
   });
 }
 
-export function listMessages(_req, res) {
-  res.json({ count: 0, messages: [] });
-}

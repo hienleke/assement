@@ -7,7 +7,12 @@ const listeners = new Set();
 
 export function onMqttMessage(listener) {
   listeners.add(listener);
-  return () => listeners.delete(listener);
+  return {
+    unsubscribe: () => {
+      console.log("unsubscribe", listener);
+      listeners.delete(listener);
+    },
+  };
 }
 
 function decodePayload(payload) {
