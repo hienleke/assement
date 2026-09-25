@@ -1,0 +1,80 @@
+@use "tokens";
+
+.panel {
+  margin-top: 1.5rem;
+  overflow: hidden;
+  border: 1px solid tokens.$line;
+  border-radius: 18px;
+  background: tokens.$card;
+  box-shadow: tokens.$shadow;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid tokens.$line;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.count {
+  color: tokens.$muted;
+  font-size: 0.9rem;
+}
+
+.chart {
+  height: 280px;
+  padding: 1rem 1.25rem 0.25rem;
+}
+
+.empty {
+  margin: 0;
+  padding: 2rem 1.25rem;
+  color: tokens.$muted;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid tokens.$line;
+
+  &:first-child {
+    border-top: 0;
+  }
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: tokens.$muted;
+  font-size: 0.82rem;
+}
+
+.topic {
+  color: tokens.$accent;
+  font-weight: 650;
+}
+
+.payload {
+  margin: 0;
+  overflow-x: auto;
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  background: #f7f3ec;
+  font-family: "SFMono-Regular", ui-monospace, monospace;
+  font-size: 0.84rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
