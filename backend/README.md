@@ -16,7 +16,7 @@ cp .env.example .env
 
 Edit `.env` with the broker URL, username, password, and certificate path. Do not commit `.env`. `DATABASE_URL` already points at `localhost:5432`.
 
-2. Start the Postgres container. This creates the `mqtt` database and exposes port `5432`.
+2. Start the Postgres container. This creates the `assessment` database and exposes port `5432`.
 
 ```bash
 docker compose up -d db
@@ -65,7 +65,6 @@ npx knex migrate:rollback --knexfile knexfile.cjs
 ## API
 
 - `GET /messages/stream` streams MQTT messages as Server-Sent Events.
-- `GET /messages` returns `{ "count": 0, "messages": [] }`.
 - `POST /beacons/:id/led` with `{ "state": "on" }` or `{ "state": "off" }` publishes to `zena/{id}/cmd`.
 - `GET /beacons` returns every row from the `beacons` table. `GET /beacons/:id` returns one row, or `404` when that id does not exist.
 
@@ -78,7 +77,7 @@ src/config.js                 load .env
 src/routes/                   map URL to controller
 src/controllers/              handle the request
 src/models/                   read and write the database
-src/middleware/               validate input and handle errors
+src/middlewares/              validate input and handle errors
 src/mqtt/client.js            MQTT connection
 src/db/knex.js                Knex client
 src/db/migrations/            schema changes (.cjs)

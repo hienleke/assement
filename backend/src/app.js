@@ -1,8 +1,8 @@
 import cors from "cors";
 import express from "express";
-import { errorHandler, notFound } from "./middleware/error.js";
-import { beaconRouter } from "./routes/beacon.routes.js";
-import { messageRouter } from "./routes/message.routes.js";
+import { errorHandler, notFound } from "@/middlewares/error.js";
+import { beaconRouter } from "@/routes/beacon.routes.js";
+import { messageRouter } from "@/routes/message.routes.js";
 
 export function createApp() {
   const app = express();

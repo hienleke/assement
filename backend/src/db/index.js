@@ -1,1 +1,1 @@
-export { db } from "./knex.js";
+export { db } from "@/db/knex.js";

@@ -1,2 +1,6 @@
-/frontend
 node_modules/
+.env
+*.log
+pgdata/
+cert/
+frontend/

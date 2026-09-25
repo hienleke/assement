@@ -1,5 +1,5 @@
-import { publishMqtt } from "../mqtt/client.js";
-import { getBeacon, getBeacons } from "../models/beacon.model.js";
+import { publishMqtt } from "@/mqtt/client.js";
+import { getBeacon, getBeacons } from "@/models/beacon.model.js";
 
 export async function listBeacons(_req, res) {
   res.json(await getBeacons());

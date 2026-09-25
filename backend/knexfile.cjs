@@ -14,7 +14,6 @@ const shared = {
   },
 };
 
-
 module.exports = {
   development: shared,
   production: shared,

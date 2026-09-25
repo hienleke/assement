@@ -4,13 +4,13 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mqtt
+      POSTGRES_DB: assessment
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d mqtt"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d assessment"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -22,7 +22,7 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/mqtt
+      DATABASE_URL: postgres://postgres:postgres@db:5432/assessment
       MQTT_CERTIFICATE: /certs/emqxsl-ca.crt
     volumes:
       - ./cert/emqxsl-ca.crt:/certs/emqxsl-ca.crt:ro

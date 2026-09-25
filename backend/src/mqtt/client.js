@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import mqtt from "mqtt";
-import { config } from "../config.js";
+import { config } from "@/config/config.js";
 
 let client;
 const listeners = new Set();
@@ -48,12 +48,13 @@ export function startMqtt() {
 
   client.on("connect", () => {
     console.log(`[mqtt] connected ${url} as ${clientId}`);
-    client.subscribe(topic, { qos }, (err) => {
+    const topics = [...new Set([topic, `${topic}/+/data`])];
+    client.subscribe(topics, { qos }, (err) => {
       if (err) {
         console.error(`[mqtt] subscribe failed: ${err.message}`);
         return;
       }
-      console.log(`[mqtt] subscribed topic="${topic}" qos=${qos}`);
+      console.log(`[mqtt] subscribed topic="${topics.join(", ")}" qos=${qos}`);
     });
   });
 
@@ -114,3 +115,4 @@ export function stopMqtt() {
   if (!client) return Promise.resolve();
   return client.endAsync();
 }
+
