@@ -1,6 +1,6 @@
 import { createApp } from "@/app.js";
 import { config } from "@/config/config.js";
-import { startMqtt, stopMqtt } from "@/mqtt/client.js";
+import { startMqtt, stopMqtt } from "@/mqtt/mqtt.js";
 
 const app = createApp();
 

@@ -29,7 +29,7 @@ export const config = {
     password: optional("MQTT_PASSWORD"),
     certificate: path.resolve(backendRoot, certificate),
     clientId: required("MQTT_CLIENT_ID", `assessment-backend-${process.pid}`),
-    topic: required("MQTT_TOPIC", "zena"),
+    topic: 'zena',
     qos: Number(required("MQTT_QOS", "1")),
   },
 };

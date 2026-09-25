@@ -1,5 +1,5 @@
 import { ERRORS } from "@/constants/error.constants.js";
-import { publishMqtt } from "@/mqtt/client.js";
+import { publishMqtt } from "@/mqtt/mqtt.js";
 import { getBeacon, getBeacons } from "@/models/beacon.model.js";
 
 export async function listBeacons(_req, res) {
