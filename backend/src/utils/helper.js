@@ -12,3 +12,16 @@ export function loadCertificate(certificatePath) {
     const ca = fs.readFileSync(certificatePath);
     return ca;
 }
+
+
+export function required(name, fallback) {
+    const value = process.env[name];
+    if (value === undefined || value === "") return fallback;
+    return value;
+}
+
+export function optional(name) {
+    const value = process.env[name];
+    if (value === undefined || value === "") return undefined;
+    return value;
+}

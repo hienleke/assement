@@ -1,5 +1,5 @@
 import { ERRORS } from "@/constants/error.constants.js";
-import { publishMqtt } from "@/mqtt/mqtt.js";
+import { publishMqtt } from "@/mqtt/publisher.js";
 import { getBeacon, getBeacons } from "@/models/beacon.model.js";
 
 export async function listBeacons(_req, res) {
@@ -14,6 +14,28 @@ export async function getBeaconById(req, res) {
   }
   res.json(beacon);
 }
+export async function deleteBeacon(req, res) {
+  const beacon = await deleteBeacon(req.validated.id);
+  if (!beacon) {
+    res.status(ERRORS.BEACON_NOT_FOUND.status).json({ error: ERRORS.BEACON_NOT_FOUND.message });
+    return;
+  }
+  res.json(beacon);
+}
+
+export async function createBeacon(req, res) {
+  const beacon = await createBeacon(req.body);
+  res.json(beacon);
+}
+export async function updateBeacon(req, res) {
+  const beacon = await updateBeacon(req.validated.id, req.body);
+  if (!beacon) {
+    res.status(ERRORS.BEACON_NOT_FOUND.status).json({ error: ERRORS.BEACON_NOT_FOUND.message });
+    return;
+  }
+  res.json(beacon);
+}
+
 
 export async function setBeaconLed(req, res) {
   const topic = `zena/${req.validated.id}/cmd`;

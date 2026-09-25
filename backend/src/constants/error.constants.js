@@ -9,4 +9,10 @@ export const ERRORS = {
   MQTT_PUBLISH_FAILED: { status: 502, message: "mqtt publish failed" },
   MQTT_NOT_CONNECTED: { status: 503, message: "mqtt not connected" },
   INTERNAL: { status: 500, message: "internal server error" },
+  INVALID_ONLINE: { status: 400, message: "online must be a boolean" },
+  INVALID_VOLUME: { status: 400, message: "volume must be a number" },
+  INVALID_LAST_SEEN_MS: { status: 400, message: "last_seen_ms must be a number" },
+  INVALID_SPL_DB: { status: 400, message: "spl_db must be a number" },
+  INVALID_TEMPERATURE_C: { status: 400, message: "temperature_c must be a number" },
+  INVALID_RSSI_DBM: { status: 400, message: "rssi_dbm must be a number" },
 };

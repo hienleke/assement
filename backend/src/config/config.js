@@ -1,22 +1,13 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
+import { optional, required } from "@/utils/helper.js";
 
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 
 dotenv.config({ path: path.join(backendRoot, ".env") });
 
-function required(name, fallback) {
-  const value = process.env[name];
-  if (value === undefined || value === "") return fallback;
-  return value;
-}
 
-function optional(name) {
-  const value = process.env[name];
-  if (value === undefined || value === "") return undefined;
-  return value;
-}
 
 const certificate = optional("MQTT_CERTIFICATE") ?? "cert/emqxsl-ca.crt";
 
@@ -29,7 +20,7 @@ export const config = {
     password: optional("MQTT_PASSWORD"),
     certificate: path.resolve(backendRoot, certificate),
     clientId: required("MQTT_CLIENT_ID", `assessment-backend-${process.pid}`),
-    topic: 'zena',
+    baseTopic: 'zena',
     qos: Number(required("MQTT_QOS", "1")),
   },
 };
