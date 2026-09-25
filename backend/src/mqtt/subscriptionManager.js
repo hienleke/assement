@@ -14,7 +14,7 @@ export function registerDeviceListener(deviceId, listener) {
   }
   deviceListeners.get(deviceId).add(listener);
 
-  const { topic: baseTopic } = config.mqtt;
+  const { baseTopic } = config.mqtt;
   const dynamicTopic = `${baseTopic}/${deviceId}/data`;
 
   if (client?.connected && !subscribedTopics.has(dynamicTopic)) {
