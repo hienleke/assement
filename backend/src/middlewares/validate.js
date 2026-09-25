@@ -1,4 +1,6 @@
-export function validateParam(name, schema, message = "invalid request") {
+import { ERRORS } from "@/constants/error.constants.js";
+
+export function validateParam(name, schema, message = ERRORS.INVALID_REQUEST.message) {
   return (req, res, next) => {
     const result = schema.safeParse(req.params[name]);
     if (!result.success) {
@@ -10,7 +12,7 @@ export function validateParam(name, schema, message = "invalid request") {
   };
 }
 
-export function validateBody(schema, message = "invalid request") {
+export function validateBody(schema, message = ERRORS.INVALID_REQUEST.message) {
   return (req, res, next) => {
     const result = schema.safeParse(req.body ?? {});
     if (!result.success) {

@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import mqtt from "mqtt";
+import { ERRORS } from "@/constants/error.constants.js";
 import { config } from "@/config/config.js";
 
 let client;
@@ -91,8 +92,8 @@ export function startMqtt() {
 
 export function publishMqtt(topic, payload) {
   if (!client?.connected) {
-    const error = new Error("mqtt not connected");
-    error.status = 503;
+    const error = new Error(ERRORS.MQTT_NOT_CONNECTED.message);
+    error.status = ERRORS.MQTT_NOT_CONNECTED.status;
     return Promise.reject(error);
   }
 
@@ -100,8 +101,8 @@ export function publishMqtt(topic, payload) {
   return new Promise((resolve, reject) => {
     client.publish(topic, body, { qos: config.mqtt.qos }, (err) => {
       if (err) {
-        const error = new Error(err.message || "mqtt publish failed");
-        error.status = 502;
+        const error = new Error(err.message || ERRORS.MQTT_PUBLISH_FAILED.message);
+        error.status = ERRORS.MQTT_PUBLISH_FAILED.status;
         reject(error);
         return;
       }
@@ -115,4 +116,3 @@ export function stopMqtt() {
   if (!client) return Promise.resolve();
   return client.endAsync();
 }
-
