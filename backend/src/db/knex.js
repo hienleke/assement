@@ -1,7 +1,7 @@
 import knex from "knex";
-import { config } from "@/config/config.js";
+import { databaseUrl } from "@/config/db.config.js";
 
 export const db = knex({
   client: "pg",
-  connection: config.databaseUrl,
+  connection: databaseUrl,
 });

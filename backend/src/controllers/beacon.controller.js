@@ -1,50 +1,48 @@
 import { ERRORS } from "@/constants/error.constants.js";
-import { publishMqtt } from "@/mqtt/publisher.js";
-import { getBeacon, getBeacons } from "@/models/beacon.model.js";
+import { create, findById, list, remove, setLed, update } from "@/services/beacon.service.js";
 
 export async function listBeacons(_req, res) {
-  res.json(await getBeacons());
+  res.json(await list());
 }
 
 export async function getBeaconById(req, res) {
-  const beacon = await getBeacon(req.validated.id);
+  const beacon = await findById(req.validated.id);
   if (!beacon) {
     res.status(ERRORS.BEACON_NOT_FOUND.status).json({ error: ERRORS.BEACON_NOT_FOUND.message });
     return;
   }
   res.json(beacon);
 }
+
 export async function deleteBeacon(req, res) {
-  const beacon = await deleteBeacon(req.validated.id);
-  if (!beacon) {
+  const deleted = await remove(req.validated.id);
+  if (!deleted) {
     res.status(ERRORS.BEACON_NOT_FOUND.status).json({ error: ERRORS.BEACON_NOT_FOUND.message });
     return;
   }
-  res.json(beacon);
+  res.json(deleted);
 }
 
 export async function createBeacon(req, res) {
-  const beacon = await createBeacon(req.body);
-  res.json(beacon);
+  res.json(await create(req.body));
 }
+
 export async function updateBeacon(req, res) {
-  const beacon = await updateBeacon(req.validated.id, req.body);
-  if (!beacon) {
+  const updated = await update(req.validated.id, req.body);
+  if (!updated) {
     res.status(ERRORS.BEACON_NOT_FOUND.status).json({ error: ERRORS.BEACON_NOT_FOUND.message });
     return;
   }
-  res.json(beacon);
+  res.json(updated);
 }
 
-
 export async function setBeaconLed(req, res) {
-  const topic = `zena/${req.validated.id}/cmd`;
-  const payload = req.body;
-
   try {
-    await publishMqtt(topic, payload);
-    res.json({ ok: true, topic, payload });
+    res.json(await setLed(req.validated.id, req.body));
   } catch (err) {
-    res.status(err.status || ERRORS.MQTT_PUBLISH_FAILED.status).json({ error: err.message, topic });
+    res.status(err.status || ERRORS.MQTT_PUBLISH_FAILED.status).json({
+      error: err.message,
+      topic: err.topic,
+    });
   }
 }

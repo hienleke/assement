@@ -1,6 +1,5 @@
 import { ERRORS } from "@/constants/error.constants.js";
-import { config } from "@/config/config.js";
-import { registerDeviceListener } from "@/mqtt/subscriptionManager.js";
+import { registerDeviceListener } from "@/mqtt/subscription.js";
 
 const deviceIdPattern = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 
@@ -15,7 +14,6 @@ export function streamMessages(req, res) {
     return;
   }
 
-  const topic = `${config.mqtt.baseTopic}/${deviceId}/data`;
 
   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
   res.setHeader("Cache-Control", "no-cache, no-transform");
@@ -27,10 +25,9 @@ export function streamMessages(req, res) {
     res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
   };
 
-  writeEvent("ready", { ok: true, topic });
+  writeEvent("ready", { ok: true });
 
   const { unsubscribe } = registerDeviceListener(deviceId, (message) => {
-    if (message.topic !== topic) return;
     writeEvent("message", message);
   });
   res.on("close", () => {

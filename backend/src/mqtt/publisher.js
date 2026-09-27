@@ -1,6 +1,6 @@
 import { getMqttClient } from "./client.js";
 import { ERRORS } from "@/constants/error.constants.js";
-import { config } from "@/config/config.js";
+import { mqttConfig } from "@/config/mqtt.config.js";
 
 export function publishMqtt(topic, payload) {
   const client = getMqttClient();
@@ -13,7 +13,7 @@ export function publishMqtt(topic, payload) {
 
   const body = JSON.stringify(payload);
   return new Promise((resolve, reject) => {
-    client.publish(topic, body, { qos: config.mqtt.qos }, (err) => {
+    client.publish(topic, body, { qos: mqttConfig.qos }, (err) => {
       if (err) {
         const error = new Error(err.message || ERRORS.MQTT_PUBLISH_FAILED.message);
         error.status = ERRORS.MQTT_PUBLISH_FAILED.status;

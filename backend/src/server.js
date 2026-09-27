@@ -1,19 +1,16 @@
 import { createApp } from "@/app.js";
-import { config } from "@/config/config.js";
+import { port } from "@/config/db.config.js";
 import { initMqttClient, stopMqtt } from "@/mqtt/client.js";
-import { setupMessageDispatcher } from "@/mqtt/subscriptionManager.js";
+import { setupMessageDispatcher } from "@/mqtt/subscription.js";
 
 const app = createApp();
 
-
-
-const server = app.listen(config.port, () => {
-  console.log(`[http] listening on http://localhost:${config.port}`);
+const server = app.listen(port, () => {
+  console.log(`[http] listening on http://localhost:${port}`);
   let client = initMqttClient();
   setupMessageDispatcher();
   client.on("connect", () => {
     console.log("[mqtt] connected");
-
   });
 });
 

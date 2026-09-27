@@ -1,10 +1,9 @@
-import { getMqttClient } from "./client.js";
-import { config } from "@/config/config.js";
+import { getMqttClient } from "@/mqtt/client.js";
+import { mqttConfig } from "@/config/mqtt.config.js";
 import { decodePayload } from "@/utils/helper.js";
 
 const deviceListeners = new Map();
 const subscribedTopics = new Set();
-
 
 export function registerDeviceListener(deviceId, listener) {
   const client = getMqttClient();
@@ -14,16 +13,15 @@ export function registerDeviceListener(deviceId, listener) {
   }
   deviceListeners.get(deviceId).add(listener);
 
-  const { baseTopic } = config.mqtt;
-  const dynamicTopic = `${baseTopic}/${deviceId}/data`;
+  const { baseTopic } = mqttConfig;
+  const registeredTopic = `${baseTopic}/${deviceId}/data`;
 
-  if (client?.connected && !subscribedTopics.has(dynamicTopic)) {
-    client.subscribe(dynamicTopic, { qos: config.mqtt.qos }, (err) => {
-      if (!err) subscribedTopics.add(dynamicTopic);
+  if (client?.connected && !subscribedTopics.has(registeredTopic)) {
+    client.subscribe(registeredTopic, { qos: mqttConfig.qos }, (err) => {
+      if (!err) subscribedTopics.add(registeredTopic);
     });
   }
 
-  // Trả về hàm unsubscribe sạch sẽ
   return {
     unsubscribe: () => {
       const listeners = deviceListeners.get(deviceId);
@@ -31,14 +29,13 @@ export function registerDeviceListener(deviceId, listener) {
         listeners.delete(listener);
         if (listeners.size === 0) {
           deviceListeners.delete(deviceId);
-          subscribedTopics.delete(dynamicTopic);
-          client?.unsubscribe(dynamicTopic);
+          subscribedTopics.delete(registeredTopic);
+          client?.unsubscribe(registeredTopic);
         }
       }
     },
   };
 }
-
 
 export function setupMessageDispatcher() {
   const client = getMqttClient();

@@ -1,5 +1,5 @@
 import mqtt from "mqtt";
-import { config } from "@/config/config.js";
+import { mqttConfig } from "@/config/mqtt.config.js";
 import { loadCertificate } from "@/utils/helper.js";
 
 let client = null;
@@ -7,7 +7,7 @@ let client = null;
 export function initMqttClient() {
   if (client) return client;
 
-  const { url, username, password, certificate, clientId } = config.mqtt;
+  const { url, username, password, certificate, clientId } = mqttConfig;
   const ca = loadCertificate(certificate);
 
   client = mqtt.connect(url, {
