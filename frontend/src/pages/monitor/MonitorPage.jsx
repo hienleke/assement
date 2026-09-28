@@ -5,8 +5,8 @@ import { setBeaconLed } from "@/services/api.js";
 import styles from "./MonitorPage.module.scss";
 
 export function MonitorPage() {
-  const [deviceId, setDeviceId] = useState('');
-  const { beacons, selected, error, messages, streamStatus } = useMonitor(trimmedDeviceId);
+  const [deviceId, setDeviceId] = useState("");
+  const { beacons, selected, error, messages, streamStatus } = useMonitor(deviceId);
   const [pending, setPending] = useState(false);
   const [command, setCommand] = useState(null);
 
@@ -14,7 +14,7 @@ export function MonitorPage() {
     setPending(true);
     setCommand(null);
     try {
-      const result = await setBeaconLed(trimmedDeviceId, state);
+      const result = await setBeaconLed(deviceId, state);
       setCommand({ ok: true, text: `Published ${result.payload.state} to ${result.topic}` });
     } catch (err) {
       setCommand({ ok: false, text: err.message });
@@ -82,7 +82,7 @@ export function MonitorPage() {
             <h2>LED command</h2>
             <span className={styles.stream}>{streamStatus}</span>
           </div>
-          <p className={styles.hint}>Command zena/{trimmedDeviceId || ":id"}/cmd · data zena/{trimmedDeviceId || ":id"}/data</p>
+          <p className={styles.hint}>Command zena/{deviceId || ":id"}/cmd · data zena/{deviceId || ":id"}/data</p>
           <label className={styles.field}>
             Device id
             <input value={deviceId} onChange={(event) => {
@@ -91,10 +91,10 @@ export function MonitorPage() {
             }} />
           </label>
           <div className={styles.actions}>
-            <button type="button" disabled={pending || trimmedDeviceId === ""} onClick={() => sendLed("on")}>
+            <button type="button" disabled={pending || deviceId === ""} onClick={() => sendLed("on")}>
               Turn on
             </button>
-            <button type="button" className={styles.off} disabled={pending || trimmedDeviceId === ""} onClick={() => sendLed("off")}>
+            <button type="button" className={styles.off} disabled={pending || deviceId === ""} onClick={() => sendLed("off")}>
               Turn off
             </button>
           </div>
