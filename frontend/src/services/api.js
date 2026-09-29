@@ -12,13 +12,12 @@ async function readJson(response) {
   return data;
 }
 
-
 export function fetchBeacons() {
   return fetch(apiPath("/beacons")).then(readJson);
 }
 
 export function fetchBeacon(id) {
-  return fetch(apiPath(`/beacons/${id}`)).then(readJson);
+  return fetch(apiPath(`/beacons/${encodeURIComponent(id)}`)).then(readJson);
 }
 
 export function setBeaconLed(deviceId, state) {
@@ -27,4 +26,8 @@ export function setBeaconLed(deviceId, state) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ state }),
   }).then(readJson);
+}
+
+export function messageStreamUrl(deviceId) {
+  return apiPath(`/messages/stream?deviceId=${encodeURIComponent(deviceId)}`);
 }
