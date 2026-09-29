@@ -9,7 +9,7 @@ import { useDebouncedValue } from "./useDebouncedValue.js";
 import { useMessageBuffer } from "./useMessageBuffer.js";
 import { useMessageStream } from "./useMessageStream.js";
 
-/** Gom toàn bộ state của trang monitor: beacon, device đang chọn và message stream. */
+
 export function useMonitor() {
   const [deviceId, setDeviceId] = useState("");
   const activeDeviceId = useDebouncedValue(deviceId.trim(), DEVICE_ID_DEBOUNCE_MS);
@@ -21,12 +21,9 @@ export function useMonitor() {
   });
   const streamStatus = useMessageStream(activeDeviceId, push);
 
-  // Đổi device thì bỏ cả cache lẫn message đang hiển thị của device cũ.
   useEffect(() => {
     clear();
   }, [activeDeviceId, clear]);
-
-  // Lần đầu có dữ liệu thì chọn sẵn beacon đầu tiên.
   const autoSelected = useRef(false);
   useEffect(() => {
     if (autoSelected.current || beacons.length === 0) return;

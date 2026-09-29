@@ -16,7 +16,6 @@ import styles from "./MessageList.module.scss";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 export const MessageChart = memo(function MessageChart({ messages }) {
-  // `messages` mới nhất đứng đầu, biểu đồ cần thứ tự thời gian tăng dần.
   const rows = useMemo(
     () => messages.filter((message) => message.payload && typeof message.payload === "object").reverse(),
     [messages],

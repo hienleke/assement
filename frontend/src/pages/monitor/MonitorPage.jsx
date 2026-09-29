@@ -103,8 +103,7 @@ export function MonitorPage() {
             <span className={styles.stream}>{streamStatus}</span>
           </div>
           <p className={styles.hint}>
-            Command zena/{activeDeviceId || ":id"}/cmd · data zena/{activeDeviceId || ":id"}/data ·
-            refresh every {FLUSH_INTERVAL_MS / 1000}s
+           Send command to device id: {activeDeviceId}
           </p>
           <label className={styles.field}>
             Device id

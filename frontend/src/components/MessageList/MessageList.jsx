@@ -15,16 +15,6 @@ export const MessageList = memo(function MessageList({ messages, pendingCount = 
       </div>
 
       <MessageChart messages={messages} />
-
-      {messages.length === 0 ? (
-        <p className={styles.empty}>Waiting for MQTT messages on the stream.</p>
-      ) : (
-        <div className={styles.list}>
-          {messages.map((message) => (
-            <MessageItem key={message.id} message={message} />
-          ))}
-        </div>
-      )}
     </section>
   );
 });
