@@ -38,7 +38,8 @@ export async function updateBeacon(req, res) {
 
 export async function setBeaconLed(req, res) {
   try {
-    res.json(await setLed(req.validated.id, req.body));
+    let result = await setLed(req.validated.id, req.body);
+    res.json(result);
   } catch (err) {
     res.status(err.status || ERRORS.MQTT_PUBLISH_FAILED.status).json({
       error: err.message,

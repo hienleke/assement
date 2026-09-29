@@ -67,6 +67,11 @@
   font-weight: 650;
 }
 
+.status {
+  color: tokens.$muted;
+  font-size: 0.82rem;
+}
+
 .payload {
   margin: 0;
   overflow-x: auto;

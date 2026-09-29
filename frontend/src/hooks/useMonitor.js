@@ -62,7 +62,7 @@ export function useMonitor(deviceId) {
 
     source.addEventListener("ready", (event) => {
       const data = JSON.parse(event.data);
-      setStreamStatus(`live · ${data.topic}`);
+      setStreamStatus(`status · ${data.ok ? "connected" : "disconnected"}`);
     });
 
     source.addEventListener("message", (event) => {
