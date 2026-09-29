@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchBeacon, fetchBeacons } from "@/services/api.js";
 
-/** Danh sách beacon + chi tiết của beacon đang chọn. */
 export function useBeacons(deviceId) {
   const [beacons, setBeacons] = useState([]);
   const [selected, setSelected] = useState(null);

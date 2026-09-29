@@ -1,11 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-/**
- * Cache message đến trong một ref (không re-render), rồi cứ mỗi
- * `flushIntervalMs` mới đẩy cả lô ra state để UI vẽ lại một lần.
- *
- * Nhờ vậy tần suất render không phụ thuộc tần suất message MQTT.
- */
 export function useMessageBuffer({ limit, flushIntervalMs }) {
   const bufferRef = useRef([]);
   const seqRef = useRef(0);

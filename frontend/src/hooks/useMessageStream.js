@@ -3,7 +3,6 @@ import { STREAM_STATUS } from "@/constants/monitor.constants.js";
 import { messageStreamUrl } from "@/services/api.js";
 import { safeJsonParse } from "@/utils/json.js";
 
-/** Mở SSE stream cho `deviceId` và gọi `onMessage` với từng message nhận được. */
 export function useMessageStream(deviceId, onMessage) {
   const [status, setStatus] = useState(STREAM_STATUS.IDLE);
   const onMessageRef = useRef(onMessage);

@@ -1,32 +1,11 @@
 import { useState } from "react";
-import { MessageList } from "@/components/MessageList/MessageList.jsx";
-import { FLUSH_INTERVAL_MS } from "@/constants/monitor.constants.js";
+import { MessageList } from "@/components/MessageList/MessageList.jsx"; 
 import { useMonitor } from "@/hooks/useMonitor.js";
 import { setBeaconLed } from "@/services/api.js";
 import styles from "./MonitorPage.module.scss";
+import { BeaconDetail } from "./BeaconDetail.jsx";
 
-const DETAIL_FIELDS = [
-  { key: "volume", label: "Volume" },
-  { key: "spl_db", label: "SPL", unit: " dB" },
-  { key: "temperature_c", label: "Temperature", unit: " °C" },
-  { key: "rssi_dbm", label: "RSSI", unit: " dBm" },
-];
 
-function BeaconDetail({ beacon }) {
-  return (
-    <dl className={styles.detail}>
-      {DETAIL_FIELDS.map((field) => (
-        <div key={field.key}>
-          <dt>{field.label}</dt>
-          <dd>
-            {beacon[field.key]}
-            {field.unit ?? ""}
-          </dd>
-        </div>
-      ))}
-    </dl>
-  );
-}
 
 export function MonitorPage() {
   const {
