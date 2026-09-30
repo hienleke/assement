@@ -1,15 +1,14 @@
+import { AppError } from "@/error/AppError.js";
 
 export function errorHandler(err, _req, res, _next) {
   console.error(err);
 
-  // Known application error
-  if (err.isOperational) {
+  if (err instanceof AppError) {
     return res.status(err.statusCode).json({
-      code: err.code,
-      message: err.message,
-      ...(err.errors && {
-        errors: err.errors,
-      }),
+      error: {
+        code: err.code,
+        message: err.message,
+      },
     });
   }
 

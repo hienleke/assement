@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const ICommand = require('./Icommand.js');
+const ICommand = require('./ICommand.js');
 
 class TurnOnLightCommand extends ICommand {
     constructor(deviceId, brightness) {

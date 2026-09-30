@@ -15,4 +15,5 @@ export const ERRORS = {
   INVALID_SPL_DB: { status: 400, message: "spl_db must be a number" },
   INVALID_TEMPERATURE_C: { status: 400, message: "temperature_c must be a number" },
   INVALID_RSSI_DBM: { status: 400, message: "rssi_dbm must be a number" },
+  RANDOM_ID_TOO_SMALL: { status: 400, message: "random id is too small" },
 };

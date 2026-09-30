@@ -24,7 +24,7 @@ beaconRouter.post(
   "/:id/led",
   validateParam("id", deviceIdSchema),
   validateBody(ledCommandSchema),
-  setBeaconLed,
+  asyncHandler(setBeaconLed),
 );
 
 beaconRouter.post("/", createBeacon);
@@ -32,6 +32,6 @@ beaconRouter.put(
   "/:id",
   validateParam("id", beaconIdSchema),
   validateBody(beaconSchema),
-  updateBeacon,
+  asyncHandler(updateBeacon),
 );
-beaconRouter.delete("/:id", validateParam("id", beaconIdSchema), deleteBeacon);
+beaconRouter.delete("/:id", validateParam("id", beaconIdSchema), asyncHandler(deleteBeacon));
