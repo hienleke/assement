@@ -1,5 +1,4 @@
-
-import { create, findById, list, remove, setLed, update } from "@/services/beacon.service.js";
+import { create, findById, list, remove, sendCommandToDevice, update } from "@/services/beacon.service.js";
 
 export async function listBeacons(_req, res) {
   res.json(await list());
@@ -25,7 +24,7 @@ export async function updateBeacon(req, res) {
   res.json(updated);
 }
 
-export async function setBeaconLed(req, res) {
-  const result = await setLed(req.validated.id, req.body);
+export async function sendCommand(req, res) {
+  const result = await sendCommandToDevice(req.validated.id, req.body);
   res.json(result);
 }

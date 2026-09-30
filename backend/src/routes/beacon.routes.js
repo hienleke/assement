@@ -5,11 +5,11 @@ import {
   deleteBeacon,
   getBeaconById,
   listBeacons,
-  setBeaconLed,
+  sendCommand,
   updateBeacon,
 } from "@/controllers/beacon.controller.js";
 import { asyncHandler, validateBody, validateParam } from "@/middlewares/validate.js";
-import { beaconIdSchema, beaconSchema, ledCommandSchema } from "@/schema/beacon.schema.js";
+import { beaconIdSchema, beaconSchema, commandSchema } from "@/schema/beacon.schema.js";
 import { deviceIdSchema } from "@/schema/device.schema.js";
 
 export const beaconRouter = Router();
@@ -21,10 +21,10 @@ beaconRouter.get(
   asyncHandler(getBeaconById),
 );
 beaconRouter.post(
-  "/:id/led",
+  "/:id/command",
   validateParam("id", deviceIdSchema),
-  validateBody(ledCommandSchema),
-  asyncHandler(setBeaconLed),
+  validateBody(commandSchema),
+  asyncHandler(sendCommand),
 );
 
 beaconRouter.post("/", createBeacon);

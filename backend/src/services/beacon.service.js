@@ -9,6 +9,7 @@ import {
   listBeacons,
   updateBeacon,
 } from "@/repositories/beacon.repository.js";
+import { commandRegistry } from "@/mqtt/commands/registry.js";
 
 export function list() {
   return listBeacons();
@@ -46,11 +47,22 @@ export function remove(id) {
   return deleted;
 }
 
-export async function setLed(deviceId, payload) {
+export async function sendCommandToDevice(deviceId, payload) {
   const topic = `${mqttConfig.baseTopic}/${deviceId}/cmd`;
+  const handler = commandRegistry[payload.action];
+
+  if (!handler) {
+    throw new AppError(
+      ERRORS.INVALID_COMMAND.message,
+      ERRORS.INVALID_COMMAND.status,
+      ERRORS.INVALID_COMMAND.code
+    );
+  }
+
+  const commandPayload = handler(payload);
   try {
-    await publishMqtt(topic, payload);
-    return { ok: true, topic, payload };
+    await publishMqtt(topic, commandPayload);
+    return { ok: true, topic, commandPayload };
   } catch (err) {
     err.topic = topic;
     throw new AppError(ERRORS.MQTT_PUBLISH_FAILED.message, ERRORS.MQTT_PUBLISH_FAILED.status, ERRORS.MQTT_PUBLISH_FAILED.code);

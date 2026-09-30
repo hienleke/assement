@@ -15,3 +15,19 @@ export const beaconSchema = z.object({
   temperature_c: z.number({ error: ERRORS.INVALID_TEMPERATURE_C.message }),
   rssi_dbm: z.number({ error: ERRORS.INVALID_RSSI_DBM.message }),
 });
+
+export const commandSchema = z.discriminatedUnion("action", [
+  z.object({
+    action: z.literal("SET_LED"),
+    enabled: z.boolean(),
+  }),
+
+  z.object({
+    action: z.literal("SET_VOLUME"),
+    value: z.number().min(0).max(100),
+  }),
+
+  z.object({
+    action: z.literal("TURN_OFF"),
+  }),
+]);

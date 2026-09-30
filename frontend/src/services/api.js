@@ -20,11 +20,11 @@ export function fetchBeacon(id) {
   return fetch(apiPath(`/beacons/${encodeURIComponent(id)}`)).then(readJson);
 }
 
-export function setBeaconLed(deviceId, state) {
-  return fetch(apiPath(`/beacons/${encodeURIComponent(deviceId)}/led`), {
+export function sendCommandToDevice(deviceId, command) {
+  return fetch(apiPath(`/beacons/${encodeURIComponent(deviceId)}/command`), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ state }),
+    body: JSON.stringify(command),
   }).then(readJson);
 }
 
