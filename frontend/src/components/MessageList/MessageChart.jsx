@@ -17,7 +17,10 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip,
 
 export const MessageChart = memo(function MessageChart({ messages }) {
   const rows = useMemo(
-    () => messages.filter((message) => message.payload && typeof message.payload === "object").reverse(),
+    () =>
+      messages
+        .filter((message) => message.payload && typeof message.payload === "object")
+        .reverse(),
     [messages],
   );
 

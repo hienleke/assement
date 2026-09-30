@@ -9,8 +9,7 @@ body {
   min-height: 100vh;
   color: tokens.$ink;
   background:
-    radial-gradient(circle at top left, rgba(31, 75, 58, 0.08), transparent 32rem),
-    tokens.$bg;
+    radial-gradient(circle at top left, rgba(31, 75, 58, 0.08), transparent 32rem), tokens.$bg;
   font-family: "Avenir Next", "Segoe UI", sans-serif;
 }
 

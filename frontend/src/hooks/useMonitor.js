@@ -9,7 +9,6 @@ import { useDebouncedValue } from "./useDebouncedValue.js";
 import { useMessageBuffer } from "./useMessageBuffer.js";
 import { useMessageStream } from "./useMessageStream.js";
 
-
 export function useMonitor() {
   const [deviceId, setDeviceId] = useState("");
   const activeDeviceId = useDebouncedValue(deviceId.trim(), DEVICE_ID_DEBOUNCE_MS);

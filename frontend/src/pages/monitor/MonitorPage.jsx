@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { MessageList } from "@/components/MessageList/MessageList.jsx"; 
+import { MessageList } from "@/components/MessageList/MessageList.jsx";
 import { useMonitor } from "@/hooks/useMonitor.js";
 import { setBeaconLed } from "@/services/api.js";
 import styles from "./MonitorPage.module.scss";
 import { BeaconDetail } from "./BeaconDetail.jsx";
-
-
-
 export function MonitorPage() {
   const {
     deviceId,
@@ -73,7 +70,7 @@ export function MonitorPage() {
               })}
             </ul>
           )}
-          {selected ? <BeaconDetail beacon={selected} /> : null}
+          {selected && <BeaconDetail beacon={selected} />}
         </section>
 
         <section className={styles.panel}>
@@ -81,9 +78,7 @@ export function MonitorPage() {
             <h2>LED command</h2>
             <span className={styles.stream}>{streamStatus}</span>
           </div>
-          <p className={styles.hint}>
-           Send command to device id: {activeDeviceId}
-          </p>
+          <p className={styles.hint}>Send command to device id: {activeDeviceId}</p>
           <label className={styles.field}>
             Device id
             <input value={deviceId} onChange={(event) => setDeviceId(event.target.value)} />
@@ -92,7 +87,12 @@ export function MonitorPage() {
             <button type="button" disabled={!canSend} onClick={() => sendLed("on")}>
               Turn on
             </button>
-            <button type="button" className={styles.off} disabled={!canSend} onClick={() => sendLed("off")}>
+            <button
+              type="button"
+              className={styles.off}
+              disabled={!canSend}
+              onClick={() => sendLed("off")}
+            >
               Turn off
             </button>
           </div>

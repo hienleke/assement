@@ -1,4 +1,3 @@
-
 export const MAX_MESSAGES = 20;
 
 export const FLUSH_INTERVAL_MS = 1000;

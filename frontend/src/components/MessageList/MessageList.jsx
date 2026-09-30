@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { MessageChart } from "./MessageChart.jsx";
-import { MessageItem } from "./MessageItem.jsx";
 import styles from "./MessageList.module.scss";
 
 export const MessageList = memo(function MessageList({ messages, pendingCount = 0 }) {

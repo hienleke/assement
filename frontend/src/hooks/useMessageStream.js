@@ -32,7 +32,10 @@ export function useMessageStream(deviceId, onMessage) {
 
     source.onerror = () => setStatus(STREAM_STATUS.DISCONNECTED);
 
-    return () => { console.log("close event source device id: ", deviceId); source.close() };
+    return () => {
+      console.log("close event source device id: ", deviceId);
+      source.close();
+    };
   }, [deviceId]);
 
   return status;
