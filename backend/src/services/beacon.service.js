@@ -47,16 +47,12 @@ export function remove(id) {
 }
 
 export async function setLed(deviceId, payload) {
-  let randomId = Math.random();
-  if (randomId < 0.5) {
-    throw new AppError(ERRORS.RANDOM_ID_TOO_SMALL.message, ERRORS.RANDOM_ID_TOO_SMALL.status, ERRORS.RANDOM_ID_TOO_SMALL.code);
-  }
   const topic = `${mqttConfig.baseTopic}/${deviceId}/cmd`;
   try {
     await publishMqtt(topic, payload);
     return { ok: true, topic, payload };
   } catch (err) {
     err.topic = topic;
-    throw err;
+    throw new AppError(ERRORS.MQTT_PUBLISH_FAILED.message, ERRORS.MQTT_PUBLISH_FAILED.status, ERRORS.MQTT_PUBLISH_FAILED.code);
   }
 }
