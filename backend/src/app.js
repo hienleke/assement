@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
-import { errorHandler, notFound } from "@/middlewares/error.js";
+import { errorHandler } from "@/middlewares/error.js";
+import { notFound } from "@/middlewares/notFound.js";
 import { beaconRouter } from "@/routes/beacon.routes.js";
 import { messageRouter } from "@/routes/message.routes.js";
 

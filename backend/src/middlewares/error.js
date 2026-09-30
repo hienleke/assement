@@ -1,10 +1,21 @@
-import { ERRORS } from "@/constants/error.constants.js";
-
-export function notFound(_req, res) {
-  res.status(ERRORS.NOT_FOUND.status).json({ error: ERRORS.NOT_FOUND.message });
-}
 
 export function errorHandler(err, _req, res, _next) {
-  console.error(`[http] ${err.message}`);
-  res.status(ERRORS.INTERNAL.status).json({ error: ERRORS.INTERNAL.message });
+  console.error(err);
+
+  // Known application error
+  if (err.isOperational) {
+    return res.status(err.statusCode).json({
+      code: err.code,
+      message: err.message,
+      ...(err.errors && {
+        errors: err.errors,
+      }),
+    });
+  }
+
+  // Unknown / unexpected error
+  return res.status(500).json({
+    code: "INTERNAL_SERVER_ERROR",
+    message: "Internal server error",
+  });
 }
