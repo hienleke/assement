@@ -3,6 +3,7 @@ import { BeaconDetail } from "@/features/beacon/components/BeaconDetail.jsx";
 import { sendCommandToDevice } from "@/features/beacon/api/beacon.api.js";
 import { MessageList } from "@/features/message/components/MessageList.jsx";
 import { useMonitor } from "@/features/monitor/hooks/useMonitor.js";
+import { COMMANDS } from "@/features/monitor/constants/monitor.constants.js";
 import styles from "./MonitorPage.module.scss";
 
 export function MonitorPage() {
@@ -26,7 +27,7 @@ export function MonitorPage() {
     setCommand(null);
     try {
       const result = await sendCommandToDevice(activeDeviceId, {
-        action: "SET_LED",
+        action: COMMANDS.setLed,
         enabled: state === "on",
       });
 
