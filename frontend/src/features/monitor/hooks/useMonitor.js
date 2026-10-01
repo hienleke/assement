@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  DEVICE_ID_DEBOUNCE_MS,
-  FLUSH_INTERVAL_MS,
-  MAX_MESSAGES,
-} from "@/constants/monitor.constants.js";
-import { useBeacons } from "./useBeacons.js";
-import { useDebouncedValue } from "./useDebouncedValue.js";
-import { useMessageBuffer } from "./useMessageBuffer.js";
-import { useMessageStream } from "./useMessageStream.js";
+import { useDebouncedValue } from "@/common/hooks/useDebouncedValue.js";
+import { useBeacons } from "@/features/beacon/hooks/useBeacons.js";
+import { FLUSH_INTERVAL_MS, MAX_MESSAGES } from "@/features/message/constants/message.constants.js";
+import { useMessageBuffer } from "@/features/message/hooks/useMessageBuffer.js";
+import { useMessageStream } from "@/features/message/hooks/useMessageStream.js";
+import { DEVICE_ID_DEBOUNCE_MS } from "@/features/monitor/constants/monitor.constants.js";
 
 export function useMonitor() {
   const [deviceId, setDeviceId] = useState("");

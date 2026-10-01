@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchBeacon, fetchBeacons } from "@/services/api.js";
+import { fetchBeacon, fetchBeacons } from "@/features/beacon/api/beacon.api.js";
 
 export function useBeacons(deviceId) {
   const [beacons, setBeacons] = useState([]);
@@ -36,7 +36,6 @@ export function useBeacons(deviceId) {
       .then((beacon) => {
         if (active) setSelected(beacon);
       })
-      // Id đang gõ dở thì 404 là bình thường, không coi là lỗi.
       .catch(() => {
         if (active) setSelected(null);
       });

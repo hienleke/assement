@@ -1,5 +1,5 @@
-import { DETAIL_FIELDS } from "@/constants/monitor.constants.js";
-import styles from "./MonitorPage.module.scss";
+import { DETAIL_FIELDS } from "@/features/beacon/constants/beacon.constants.js";
+import styles from "./BeaconDetail.module.scss";
 
 export function BeaconDetail({ beacon }) {
   return (

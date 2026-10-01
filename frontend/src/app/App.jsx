@@ -1,4 +1,4 @@
-import { MonitorPage } from "@/pages/monitor/MonitorPage.jsx";
+import { MonitorPage } from "@/features/monitor/components/MonitorPage.jsx";
 
 export function App() {
   return <MonitorPage />;

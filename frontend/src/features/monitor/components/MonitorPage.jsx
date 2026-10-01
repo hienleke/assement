@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { MessageList } from "@/components/MessageList/MessageList.jsx";
-import { useMonitor } from "@/hooks/useMonitor.js";
-import { sendCommandToDevice } from "@/services/api.js";
+import { BeaconDetail } from "@/features/beacon/components/BeaconDetail.jsx";
+import { sendCommandToDevice } from "@/features/beacon/api/beacon.api.js";
+import { MessageList } from "@/features/message/components/MessageList.jsx";
+import { useMonitor } from "@/features/monitor/hooks/useMonitor.js";
 import styles from "./MonitorPage.module.scss";
-import { BeaconDetail } from "./BeaconDetail.jsx";
+
 export function MonitorPage() {
   const {
     deviceId,
@@ -24,9 +25,15 @@ export function MonitorPage() {
     setPending(true);
     setCommand(null);
     try {
-      const result = await sendCommandToDevice(activeDeviceId, { action: "SET_LED", enabled: state === "on" });
-      
-      setCommand({ ok: true, text: `Published ${result?.ok ? "successfully" : "failed"} to ${result?.topic}` });
+      const result = await sendCommandToDevice(activeDeviceId, {
+        action: "SET_LED",
+        enabled: state === "on",
+      });
+
+      setCommand({
+        ok: true,
+        text: `Published ${result?.ok ? "successfully" : "failed"} to ${result?.topic}`,
+      });
     } catch (err) {
       setCommand({ ok: false, text: err.message });
     } finally {
