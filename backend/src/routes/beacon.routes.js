@@ -8,13 +8,13 @@ import {
   sendCommand,
   updateBeacon,
 } from "@/controllers/beacon.controller.js";
-import { asyncHandler, validateBody, validateParam } from "@/middlewares/validate.js";
-import { beaconIdSchema, beaconSchema, commandSchema } from "@/schema/beacon.schema.js";
+import { asyncHandler, validateBody, validateParam, validateQuery } from "@/middlewares/validate.js";
+import { beaconIdSchema, beaconSchema, commandSchema, beaconListQuerySchema } from "@/schema/beacon.schema.js";
 import { deviceIdSchema } from "@/schema/device.schema.js";
 
 export const beaconRouter = Router();
 
-beaconRouter.get("/", asyncHandler(listBeacons));
+beaconRouter.get("/", validateQuery("page", beaconListQuerySchema.shape.page, ERRORS.INVALID_PAGE.message), validateQuery("limit", beaconListQuerySchema.shape.limit, ERRORS.INVALID_LIMIT.message), asyncHandler(listBeacons));
 beaconRouter.get(
   "/:id",
   validateParam("id", beaconIdSchema, ERRORS.INVALID_BEACON_ID.message),

@@ -1,7 +1,7 @@
 import { apiPath, readJson } from "@/common/api/client.js";
 
-export function fetchBeacons() {
-  return fetch(apiPath("/beacons")).then(readJson);
+export function fetchBeacons(page = 1, limit = 10) {
+  return fetch(apiPath(`/beacons?page=${page}&limit=${limit}`)).then(readJson);
 }
 
 export function fetchBeacon(id) {

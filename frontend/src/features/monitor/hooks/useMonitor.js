@@ -10,7 +10,7 @@ export function useMonitor() {
   const [deviceId, setDeviceId] = useState("");
   const activeDeviceId = useDebouncedValue(deviceId.trim(), DEVICE_ID_DEBOUNCE_MS);
 
-  const { beacons, selected, error } = useBeacons(activeDeviceId);
+  const { beacons, pagination, setPage, selected, error } = useBeacons(activeDeviceId);
   const { messages, pendingCount, push, clear } = useMessageBuffer({
     limit: MAX_MESSAGES,
     flushIntervalMs: FLUSH_INTERVAL_MS,
@@ -32,6 +32,8 @@ export function useMonitor() {
     setDeviceId,
     activeDeviceId,
     beacons,
+    pagination,
+    setPage,
     selected,
     error,
     messages,

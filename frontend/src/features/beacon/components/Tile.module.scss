@@ -1,0 +1,122 @@
+@use "tokens";
+
+.card,
+.cardActive {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid tokens.$line;
+  border-radius: 16px;
+  background: tokens.$card;
+  cursor: pointer;
+}
+
+.cardActive {
+  border-color: tokens.$accent;
+  background: tokens.$ok-bg;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.id {
+  margin-right: 0.55rem;
+}
+
+.online,
+.offline {
+  font-size: 0.8rem;
+  color: tokens.$muted;
+}
+
+.online {
+  color: tokens.$ok;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  margin: 0;
+
+  div {
+    padding: 0.45rem 0.6rem;
+    border-radius: 12px;
+    background: #f7f3ec;
+  }
+
+  dt {
+    color: tokens.$muted;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0.2rem 0 0;
+    font-weight: 650;
+  }
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.switchLabel {
+  color: tokens.$muted;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.switch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.track {
+  position: relative;
+  width: 2.6rem;
+  height: 1.45rem;
+  border-radius: 999px;
+  background: tokens.$line;
+  transition: background 0.15s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.15s ease;
+  }
+}
+
+.switch input:checked + .track {
+  background: tokens.$accent;
+
+  &::after {
+    transform: translateX(1.15rem);
+  }
+}
+
+.switch input:disabled + .track {
+  opacity: 0.6;
+}
+
+.error {
+  margin: 0;
+  color: tokens.$bad;
+  font-size: 0.85rem;
+}

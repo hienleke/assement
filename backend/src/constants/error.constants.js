@@ -1,5 +1,7 @@
 export const ERRORS = {
   INVALID_REQUEST: { status: 400, message: "invalid request" },
+  INVALID_PAGE: { status: 400, message: "invalid page" },
+  INVALID_LIMIT: { status: 400, message: "invalid limit" },
   DEVICE_ID_REQUIRED: { status: 400, message: "device id is required" },
   INVALID_DEVICE_ID: { status: 400, message: "invalid device id" },
   INVALID_BEACON_ID: { status: 400, message: "invalid beacon id" },

@@ -1,0 +1,66 @@
+import { useState } from "react";
+import { sendCommandToDevice } from "@/features/beacon/api/beacon.api.js";
+import { DETAIL_FIELDS } from "@/features/beacon/constants/beacon.constants.js";
+import styles from "./Tile.module.scss";
+
+export function Tile({ beacon, active, onSelect }) {
+  const id = String(beacon.id);
+  const [ledOn, setLedOn] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const toggleLed = async (enabled) => {
+    setPending(true);
+    setMessage("");
+    try {
+      await sendCommandToDevice(id, { action: "SET_LED", enabled });
+      setLedOn(enabled);
+      onSelect(id);
+    } catch (err) {
+      setMessage(err.message);
+    } finally {
+      setPending(false);
+    }
+  };
+
+  return (
+    <article
+      className={active ? styles.cardActive : styles.card}
+      onClick={() => onSelect(id)}
+    >
+      <header className={styles.header}>
+        <div>
+          <strong className={styles.id}>#{id}</strong>
+          <span className={beacon.online ? styles.online : styles.offline}>
+            {beacon.online ? "online" : "offline"}
+          </span>
+        </div>
+        <label className={styles.switch} onClick={(event) => event.stopPropagation()}>
+          <span className={styles.switchLabel}>LED</span>
+          <input
+            type="checkbox"
+            role="switch"
+            checked={ledOn}
+            disabled={pending}
+            aria-label={`LED for beacon ${id}`}
+            onChange={(event) => toggleLed(event.target.checked)}
+          />
+          <span className={styles.track} />
+        </label>
+      </header>
+
+      <dl className={styles.fields}>
+        {DETAIL_FIELDS.map((field) => (
+          <div key={field.key}>
+            <dt>{field.label}</dt>
+            <dd>
+              {beacon[field.key]}
+              {field.unit ?? ""}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      {message ? <p className={styles.error}>{message}</p> : null}
+    </article>
+  );
+}

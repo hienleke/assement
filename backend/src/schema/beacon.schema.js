@@ -16,6 +16,11 @@ export const beaconSchema = z.object({
   rssi_dbm: z.number({ error: ERRORS.INVALID_RSSI_DBM.message }),
 });
 
+export const beaconListQuerySchema = z.object({
+  page: z.coerce.number().int().positive().default(1),
+  limit: z.coerce.number().int().positive().min(1).max(100).default(10),
+});
+
 export const commandSchema = z.discriminatedUnion("action", [
   z.object({
     action: z.literal("SET_LED"),

@@ -39,8 +39,6 @@ export const MessageChart = memo(function MessageChart({ messages }) {
     [rows],
   );
 
-  if (rows.length === 0) return null;
-
   return (
     <div className={styles.chart}>
       <Line data={chartData} options={CHART_OPTIONS} />

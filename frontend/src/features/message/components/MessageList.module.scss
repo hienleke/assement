@@ -1,7 +1,10 @@
 @use "tokens";
 
 .panel {
-  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
   overflow: hidden;
   border: 1px solid tokens.$line;
   border-radius: 18px;
@@ -28,8 +31,15 @@
 }
 
 .chart {
-  height: 280px;
-  padding: 1rem 1.25rem 0.25rem;
+  position: relative;
+  flex: 1;
+  min-height: 16rem;
+  padding: 1rem 1.25rem 0.75rem;
+
+  > canvas,
+  > div {
+    height: 100% !important;
+  }
 }
 
 .empty {

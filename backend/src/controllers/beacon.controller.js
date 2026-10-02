@@ -1,7 +1,9 @@
 import { create, findById, list, remove, sendCommandToDevice, update } from "@/services/beacon.service.js";
 
-export async function listBeacons(_req, res) {
-  res.json(await list());
+export async function listBeacons(req, res) {
+  const { page, limit } = req.validated;
+  const result = await list(page, limit);
+  res.json(result);
 }
 
 export async function getBeaconById(req, res) {

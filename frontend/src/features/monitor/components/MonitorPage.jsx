@@ -1,48 +1,11 @@
-import { useState } from "react";
-import { BeaconDetail } from "@/features/beacon/components/BeaconDetail.jsx";
-import { sendCommandToDevice } from "@/features/beacon/api/beacon.api.js";
+import { Tile } from "@/features/beacon/components/Tile.jsx";
 import { MessageList } from "@/features/message/components/MessageList.jsx";
 import { useMonitor } from "@/features/monitor/hooks/useMonitor.js";
-import { COMMANDS } from "@/features/monitor/constants/monitor.constants.js";
 import styles from "./MonitorPage.module.scss";
 
 export function MonitorPage() {
-  const {
-    deviceId,
-    setDeviceId,
-    activeDeviceId,
-    beacons,
-    selected,
-    error,
-    messages,
-    pendingCount,
-    streamStatus,
-  } = useMonitor();
-
-  const [pending, setPending] = useState(false);
-  const [command, setCommand] = useState(null);
-
-  const sendLed = async (state) => {
-    setPending(true);
-    setCommand(null);
-    try {
-      const result = await sendCommandToDevice(activeDeviceId, {
-        action: COMMANDS.setLed,
-        enabled: state === "on",
-      });
-
-      setCommand({
-        ok: true,
-        text: `Published ${result?.ok ? "successfully" : "failed"} to ${result?.topic}`,
-      });
-    } catch (err) {
-      setCommand({ ok: false, text: err.message });
-    } finally {
-      setPending(false);
-    }
-  };
-
-  const canSend = !pending && activeDeviceId !== "";
+  const { deviceId, setDeviceId, beacons, pagination, setPage, error, messages, pendingCount, streamStatus } =
+    useMonitor();
 
   return (
     <main className={styles.page}>
@@ -51,65 +14,50 @@ export function MonitorPage() {
         <h1 className={styles.title}>Beacon dashboard</h1>
         {error ? <p className={styles.error}>{error}</p> : null}
       </header>
-
-      <section className={styles.layout}>
-        <section className={styles.panel}>
-          <div className={styles.panelHeader}>
-            <h2>Beacons</h2>
-            <span>{beacons.length}</span>
-          </div>
-          {beacons.length === 0 ? (
-            <p className={styles.empty}>No beacons yet.</p>
-          ) : (
-            <ul className={styles.beaconList}>
-              {beacons.map((beacon) => {
-                const id = String(beacon.id);
-                return (
-                  <li key={id}>
-                    <button
-                      type="button"
-                      className={id === deviceId ? styles.beaconActive : styles.beacon}
-                      onClick={() => setDeviceId(id)}
-                    >
-                      <strong>#{id}</strong>
-                      <span>{beacon.online ? "online" : "offline"}</span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
+      <div className={styles.container}>
+      <section className={styles.beacons}>
+        <div className={styles.panelHeader}>
+          <h2>Beacons</h2>
+          <span className={styles.stream}>{streamStatus}</span>
+        </div>
+        {beacons.length === 0 ? (
+          <p className={styles.empty}>No beacons yet.</p>
+        ) : (
+          <ul className={styles.beaconList}>
+            {beacons.map((beacon) => {
+              const id = String(beacon.id);
+              return (
+                <li key={id}>
+                  <Tile beacon={beacon} active={id === deviceId} onSelect={setDeviceId} />
+                </li>
+              );
+            })}
+          </ul>
           )}
-          {selected && <BeaconDetail beacon={selected} />}
-        </section>
-
-        <section className={styles.panel}>
-          <div className={styles.panelHeader}>
-            <h2>LED command</h2>
-            <span className={styles.stream}>{streamStatus}</span>
-          </div>
-          <p className={styles.hint}>Send command to device id: {activeDeviceId}</p>
-          <label className={styles.field}>
-            Device id
-            <input value={deviceId} onChange={(event) => setDeviceId(event.target.value)} />
-          </label>
-          <div className={styles.actions}>
-            <button type="button" disabled={!canSend} onClick={() => sendLed("on")}>
-              Turn on
-            </button>
+          <nav className={styles.pagination} aria-label="Beacon pages">
             <button
               type="button"
-              className={styles.off}
-              disabled={!canSend}
-              onClick={() => sendLed("off")}
+              disabled={pagination.page <= 1}
+              onClick={() => setPage(pagination.page - 1)}
             >
-              Turn off
+              Previous
             </button>
-          </div>
-          {command ? <p className={command.ok ? styles.ok : styles.error}>{command.text}</p> : null}
-        </section>
+            <p>
+              Page <strong>{pagination.page}</strong>
+              <span>of {pagination.totalPages}</span>
+            </p>
+            <button
+              type="button"
+              disabled={pagination.page >= pagination.totalPages}
+              onClick={() => setPage(pagination.page + 1)}
+            >
+              Next
+            </button>
+          </nav>
       </section>
 
-      <MessageList messages={messages} pendingCount={pendingCount} />
+      <MessageList className={styles.live} messages={messages} pendingCount={pendingCount} />
+      </div>
     </main>
   );
 }

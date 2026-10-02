@@ -11,8 +11,18 @@ import {
 } from "@/repositories/beacon.repository.js";
 import { commandRegistry } from "@/mqtt/commands/registry.js";
 
-export function list() {
-  return listBeacons();
+export async function list(page = 1, limit = 10) {
+  const result = await listBeacons(page, limit);
+  const total = Number(result.total ?? 0);
+  return {
+    data: result.data,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.max(1, Math.ceil(total / limit)),
+    },
+  };
 }
 
 export function findById(id) {
