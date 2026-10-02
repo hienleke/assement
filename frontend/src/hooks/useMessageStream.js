@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { messageStreamUrl } from "@/features/message/api/message.api.js";
-import { STREAM_STATUS } from "@/features/message/constants/message.constants.js";
-import { safeJsonParse } from "@/features/message/util/json.js";
+import { messageStreamUrl } from "@/api/message.api.js";
+import { STREAM_STATUS } from "@/constants/message.constants.js";
+import { safeJsonParse } from "@/utils/json.js";
 
 export function useMessageStream(deviceId, onMessage) {
   const [status, setStatus] = useState(STREAM_STATUS.IDLE);

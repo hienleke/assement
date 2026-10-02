@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchBeacon, fetchBeacons } from "@/features/beacon/api/beacon.api.js";
+import { fetchBeacon, fetchBeacons } from "@/api/beacon.api.js";
 
 const EMPTY_PAGE = { page: 1, limit: 10, total: 0, totalPages: 1 };
 

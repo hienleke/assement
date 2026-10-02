@@ -9,8 +9,8 @@ import {
   Tooltip,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { CHART_OPTIONS, SERIES } from "@/features/message/constants/message.constants.js";
-import { formatTime } from "@/features/message/util/format.js";
+import { CHART_OPTIONS, SERIES } from "@/constants/message.constants.js";
+import { formatTime } from "@/utils/format.js";
 import styles from "./MessageList.module.scss";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);

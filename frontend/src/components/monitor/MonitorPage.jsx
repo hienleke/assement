@@ -1,10 +1,10 @@
-import { Tile } from "@/features/beacon/components/Tile.jsx";
-import { MessageList } from "@/features/message/components/MessageList.jsx";
-import { useMonitor } from "@/features/monitor/hooks/useMonitor.js";
+import { MessageList } from "@/components/message/MessageList.jsx";
+import { Tile } from "@/components/beacon/Tile.jsx";
+import { useMonitor } from "@/hooks/useMonitor.js";
 import styles from "./MonitorPage.module.scss";
 
 export function MonitorPage() {
-  const { deviceId, setDeviceId, beacons, pagination, setPage, error, messages, pendingCount, streamStatus } =
+  const { deviceId, setDeviceId, beacons, pagination, setPage, error, messages, streamStatus } =
     useMonitor();
 
   return (
@@ -28,7 +28,7 @@ export function MonitorPage() {
               const id = String(beacon.id);
               return (
                 <li key={id}>
-                  <Tile beacon={beacon} active={id === deviceId} onSelect={setDeviceId} />
+                  <Tile beacon={beacon} messages={messages} active={id === deviceId} onSelect={setDeviceId} />
                 </li>
               );
             })}
@@ -56,7 +56,7 @@ export function MonitorPage() {
           </nav>
       </section>
 
-      <MessageList className={styles.live} messages={messages} pendingCount={pendingCount} />
+      <MessageList className={styles.live} messages={messages} />
       </div>
     </main>
   );

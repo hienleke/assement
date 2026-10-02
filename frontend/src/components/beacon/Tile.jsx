@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { sendCommandToDevice } from "@/features/beacon/api/beacon.api.js";
-import { DETAIL_FIELDS } from "@/features/beacon/constants/beacon.constants.js";
+import { sendCommandToDevice } from "@/api/beacon.api.js";
+import { DETAIL_FIELDS } from "@/constants/beacon.constants.js";
 import styles from "./Tile.module.scss";
 
-export function Tile({ beacon, active, onSelect }) {
+export function Tile({ beacon, messages, active, onSelect }) {
   const id = String(beacon.id);
   const [ledOn, setLedOn] = useState(false);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
+
+  console.log("message data from tile", messages);
 
   const toggleLed = async (enabled) => {
     setPending(true);

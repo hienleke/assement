@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { formatPayload, formatTime } from "@/features/message/util/format.js";
+import { formatPayload, formatTime } from "@/utils/format.js";
 import styles from "./MessageList.module.scss";
 
 export const MessageItem = memo(function MessageItem({ message }) {

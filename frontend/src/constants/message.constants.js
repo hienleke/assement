@@ -1,7 +1,5 @@
 export const MAX_MESSAGES = 20;
 
-export const FLUSH_INTERVAL_MS = 1000;
-
 export const STREAM_STATUS = {
   IDLE: "waiting for device",
   CONNECTING: "connecting",

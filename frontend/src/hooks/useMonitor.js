@@ -1,20 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { useDebouncedValue } from "@/common/hooks/useDebouncedValue.js";
-import { useBeacons } from "@/features/beacon/hooks/useBeacons.js";
-import { FLUSH_INTERVAL_MS, MAX_MESSAGES } from "@/features/message/constants/message.constants.js";
-import { useMessageBuffer } from "@/features/message/hooks/useMessageBuffer.js";
-import { useMessageStream } from "@/features/message/hooks/useMessageStream.js";
-import { DEVICE_ID_DEBOUNCE_MS } from "@/features/monitor/constants/monitor.constants.js";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue.js";
+import { useBeacons } from "@/hooks/useBeacons.js";
+import { MAX_MESSAGES } from "@/constants/message.constants.js";
+import { useMessageBuffer } from "@/hooks/useMessageBuffer.js";
+import { useMessageStream } from "@/hooks/useMessageStream.js";
+import { DEVICE_ID_DEBOUNCE_MS } from "@/constants/monitor.constants.js";
 
 export function useMonitor() {
   const [deviceId, setDeviceId] = useState("");
   const activeDeviceId = useDebouncedValue(deviceId.trim(), DEVICE_ID_DEBOUNCE_MS);
 
   const { beacons, pagination, setPage, selected, error } = useBeacons(activeDeviceId);
-  const { messages, pendingCount, push, clear } = useMessageBuffer({
-    limit: MAX_MESSAGES,
-    flushIntervalMs: FLUSH_INTERVAL_MS,
-  });
+  const { messages, push, clear } = useMessageBuffer({ limit: MAX_MESSAGES });
+
   const streamStatus = useMessageStream(activeDeviceId, push);
 
   useEffect(() => {
@@ -37,7 +35,6 @@ export function useMonitor() {
     selected,
     error,
     messages,
-    pendingCount,
     streamStatus,
   };
 }
