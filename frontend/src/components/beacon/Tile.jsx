@@ -3,21 +3,23 @@ import { sendCommandToDevice } from "@/api/beacon.api.js";
 import { DETAIL_FIELDS } from "@/constants/beacon.constants.js";
 import styles from "./Tile.module.scss";
 
-export function Tile({ beacon, messages, active, onSelect }) {
+export function Tile({ beacon, active, onSelect }) {
   const id = String(beacon.id);
   const [ledOn, setLedOn] = useState(false);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
 
-  console.log("message data from tile", messages);
 
   const toggleLed = async (enabled) => {
     setPending(true);
     setMessage("");
     try {
-      await sendCommandToDevice(id, { action: "SET_LED", enabled });
-      setLedOn(enabled);
-      onSelect(id);
+      let response = await sendCommandToDevice(id, { action: "SET_LED", enabled });
+      console.log("response from toggleLed", response);
+      if (response.ok) {
+        setLedOn(enabled);
+         onSelect(id);
+      }
     } catch (err) {
       setMessage(err.message);
     } finally {

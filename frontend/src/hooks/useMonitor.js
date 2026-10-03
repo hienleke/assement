@@ -1,23 +1,29 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue.js";
 import { useBeacons } from "@/hooks/useBeacons.js";
 import { MAX_MESSAGES } from "@/constants/message.constants.js";
-import { useMessageBuffer } from "@/hooks/useMessageBuffer.js";
 import { useMessageStream } from "@/hooks/useMessageStream.js";
 import { DEVICE_ID_DEBOUNCE_MS } from "@/constants/monitor.constants.js";
 
 export function useMonitor() {
   const [deviceId, setDeviceId] = useState("");
+  const [messages, setMessages] = useState([]);
   const activeDeviceId = useDebouncedValue(deviceId.trim(), DEVICE_ID_DEBOUNCE_MS);
+  const messageSeq = useRef(0);
 
   const { beacons, pagination, setPage, selected, error } = useBeacons(activeDeviceId);
-  const { messages, push, clear } = useMessageBuffer({ limit: MAX_MESSAGES });
 
-  const streamStatus = useMessageStream(activeDeviceId, push);
+  const pushMessage = useCallback((message) => {
+    messageSeq.current += 1;
+    const next = { ...message, id: `${message.receivedAt}#${messageSeq.current}` };
+    setMessages((current) => [next, ...current].slice(0, MAX_MESSAGES));
+  }, []);
+
+  const streamStatus = useMessageStream(activeDeviceId, pushMessage);
 
   useEffect(() => {
-    clear();
-  }, [activeDeviceId, clear]);
+    setMessages([]);
+  }, [activeDeviceId]);
   const autoSelected = useRef(false);
   useEffect(() => {
     if (autoSelected.current || beacons.length === 0) return;
