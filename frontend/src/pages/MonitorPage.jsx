@@ -15,24 +15,29 @@ export function MonitorPage() {
         {error ? <p className={styles.error}>{error}</p> : null}
       </header>
       <div className={styles.container}>
-      <section className={styles.beacons}>
-        <div className={styles.panelHeader}>
-          <h2>Beacons</h2>
-          <span className={styles.stream}>{streamStatus}</span>
-        </div>
-        {beacons.length === 0 ? (
-          <p className={styles.empty}>No beacons yet.</p>
-        ) : (
-          <ul className={styles.beaconList}>
-            {beacons.map((beacon) => {
-              const id = String(beacon.id);
-              return (
-                <li key={id}>
-                  <Tile beacon={beacon} messages={messages} active={id === deviceId} onSelect={setDeviceId} />
-                </li>
-              );
-            })}
-          </ul>
+        <section className={styles.beacons}>
+          <div className={styles.panelHeader}>
+            <h2>Beacons</h2>
+            <span className={styles.stream}>{streamStatus}</span>
+          </div>
+          {beacons.length === 0 ? (
+            <p className={styles.empty}>No beacons yet.</p>
+          ) : (
+            <ul className={styles.beaconList}>
+              {beacons.map((beacon) => {
+                const id = String(beacon.id);
+                return (
+                  <li key={id}>
+                    <Tile
+                      beacon={beacon}
+                      messages={messages}
+                      active={id === deviceId}
+                      onSelect={setDeviceId}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
           )}
           <nav className={styles.pagination} aria-label="Beacon pages">
             <button
@@ -54,9 +59,9 @@ export function MonitorPage() {
               Next
             </button>
           </nav>
-      </section>
+        </section>
 
-      <MessageList className={styles.live} messages={messages} />
+        <MessageList className={styles.live} messages={messages} />
       </div>
     </main>
   );

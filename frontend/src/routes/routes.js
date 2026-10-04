@@ -1,4 +1,4 @@
-import { MonitorPage } from "@/components/monitor/MonitorPage.jsx";
+import { MonitorPage } from "@/pages/MonitorPage.jsx";
 
 export const routes = [
   {

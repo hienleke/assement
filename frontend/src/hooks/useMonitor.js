@@ -4,7 +4,6 @@ import { useBeacons } from "@/hooks/useBeacons.js";
 import { MAX_MESSAGES } from "@/constants/message.constants.js";
 import { useMessageStream } from "@/hooks/useMessageStream.js";
 import { DEVICE_ID_DEBOUNCE_MS } from "@/constants/monitor.constants.js";
-
 export function useMonitor() {
   const [deviceId, setDeviceId] = useState("");
   const [messages, setMessages] = useState([]);
