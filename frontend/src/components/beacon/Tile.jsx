@@ -11,8 +11,6 @@ export function Tile({ beacon, messages, active, onSelect }) {
   const pendingRef = useRef(false);
   const lastMessage = messages[0];
 
-  console.log("messages data", messages);
-
   const toggleLed = async (enabled) => {
     if (pendingRef.current) return;
     pendingRef.current = true;

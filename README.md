@@ -28,9 +28,24 @@ The API listens on `http://localhost:3000`. `npm run dev` restarts on code chang
 
 Do not commit `.env`. `DATABASE_URL` points at `localhost:5432` and database `assessment`. Edit the MQTT URL, username, password, and certificate path.
 
-Migration and seed files must use `.cjs`. The first migrate prints `Batch 1 run: 1 migrations`. Seed prints `Ran 1 seed files` when `src/db/seeds/seed_beacons.cjs` is found.
+### Knex
 
-Roll back the latest migration with `npm run migrate:rollback`.
+Run these from `backend`, after Postgres is up. Every command needs `--knexfile knexfile.cjs`. Migration and seed files must use `.cjs`.
+
+```bash
+cd backend
+npx knex migrate:latest --knexfile knexfile.cjs
+npx knex seed:run --knexfile knexfile.cjs
+```
+
+`migrate:latest` creates the `beacons` table. The first run prints `Batch 1 run: 1 migrations`. `seed:run` clears that table and inserts the sample rows. It prints `Ran 1 seed files` when `src/db/seeds/seed_beacons.cjs` is found. A `.js` seed is ignored and Knex prints `No seed files exist`.
+
+`npm run migrate` is the same as `migrate:latest`. Roll back the latest batch with either command:
+
+```bash
+npm run migrate:rollback
+npx knex migrate:rollback --knexfile knexfile.cjs
+```
 
 `docker compose up --build` starts Postgres and the API together. The API container migrates, then starts the server. Inside Compose, `DATABASE_URL` uses host `db`.
 

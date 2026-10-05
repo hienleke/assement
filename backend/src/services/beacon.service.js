@@ -25,32 +25,32 @@ export async function list(page = 1, limit = 10) {
   };
 }
 
-export function findById(id) {
-  const beacon = findBeacon(id);
+export async function findById(id) {
+  const beacon = await findBeacon(id);
   if (!beacon) {
     throw new AppError(ERRORS.BEACON_NOT_FOUND.message, ERRORS.BEACON_NOT_FOUND.status, ERRORS.BEACON_NOT_FOUND.code);
   }
   return beacon;
 }
 
-export function create(data) {
-  const created = insertBeacon(data);
+export async function create(data) {
+  const created = await insertBeacon(data);
   if (!created) {
     throw new AppError(ERRORS.BEACON_NOT_FOUND.message, ERRORS.BEACON_NOT_FOUND.status, ERRORS.BEACON_NOT_FOUND.code);
   }
   return created;
 }
 
-export function update(id, data) {
-  const updated = updateBeacon(id, data);
+export async function update(id, data) {
+  const updated = await updateBeacon(id, data);
   if (!updated) {
     throw new AppError(ERRORS.BEACON_NOT_FOUND.message, ERRORS.BEACON_NOT_FOUND.status, ERRORS.BEACON_NOT_FOUND.code);
   }
   return updated;
 }
 
-export function remove(id) {
-  const deleted = deleteBeacon(id);
+export async function remove(id) {
+  const deleted = await deleteBeacon(id);
   if (!deleted) {
     throw new AppError(ERRORS.BEACON_NOT_FOUND.message, ERRORS.BEACON_NOT_FOUND.status, ERRORS.BEACON_NOT_FOUND.code);
   }

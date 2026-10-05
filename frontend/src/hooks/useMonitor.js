@@ -27,7 +27,7 @@ export function useMonitor() {
   useEffect(() => {
     if (autoSelected.current || beacons.length === 0) return;
     autoSelected.current = true;
-    setDeviceId((current) => (current === "" ? String(beacons[0].id) : current));
+    setDeviceId((current) => (current === "" ? String(beacons[0]?.id) : current));
   }, [beacons]);
 
   return {

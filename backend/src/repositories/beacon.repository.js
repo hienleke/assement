@@ -15,13 +15,13 @@ export function findBeacon(id) {
 }
 
 export function insertBeacon(data) {
-  return db("beacons").insert(data);
+  return db("beacons").insert(data).returning("*");
 }
 
 export function updateBeacon(id, data) {
-  return db("beacons").where({ id }).update(data);
+  return db("beacons").where({ id }).update(data).returning("*");
 }
 
 export function deleteBeacon(id) {
-  return db("beacons").where({ id }).delete();
+  return db("beacons").where({ id }).delete().returning("*");
 }
