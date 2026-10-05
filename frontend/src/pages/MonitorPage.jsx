@@ -30,7 +30,7 @@ export function MonitorPage() {
                   <li key={id}>
                     <Tile
                       beacon={beacon}
-                      messages={messages}
+                      messages={id === deviceId ? messages : null}
                       active={id === deviceId}
                       onSelect={setDeviceId}
                     />

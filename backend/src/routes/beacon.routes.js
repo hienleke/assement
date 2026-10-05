@@ -27,7 +27,7 @@ beaconRouter.post(
   asyncHandler(sendCommand),
 );
 
-beaconRouter.post("/", createBeacon);
+beaconRouter.post("/", validateBody(beaconSchema), asyncHandler(createBeacon));
 beaconRouter.put(
   "/:id",
   validateParam("id", beaconIdSchema),

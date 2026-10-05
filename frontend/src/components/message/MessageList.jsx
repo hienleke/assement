@@ -7,7 +7,6 @@ export const MessageList = memo(function MessageList({ className, messages }) {
     <section className={className ? `${styles.panel} ${className}` : styles.panel}>
       <div className={styles.header}>
         <h2 className={styles.title}>Live messages</h2>
-        <span className={styles.count}>{messages.length} received</span>
       </div>
 
       <MessageChart messages={messages} />

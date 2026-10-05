@@ -9,7 +9,7 @@ export function Tile({ beacon, messages, active, onSelect }) {
   const [message, setMessage] = useState("");
   const [pending, setPending] = useState(false);
   const pendingRef = useRef(false);
-  const lastMessage = messages[0];
+  const lastMessage = messages && messages[0] ? messages[0] : null;
 
   const toggleLed = async (enabled) => {
     if (pendingRef.current) return;

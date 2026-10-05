@@ -1,7 +1,7 @@
 import { createApp } from "@/app.js";
 import { port } from "@/config/db.config.js";
 import { initMqttClient, stopMqtt } from "@/mqtt/client.js";
-import { setupMessageDispatcher } from "@/mqtt/subscription.js";
+import { resubscribeAll, setupMessageDispatcher } from "@/mqtt/subscription.js";
 
 const app = createApp();
 
@@ -10,6 +10,7 @@ const server = app.listen(port, () => {
   let client = initMqttClient();
   setupMessageDispatcher();
   client.on("connect", () => {
+    resubscribeAll(client);
     console.log("[mqtt] connected");
   });
 });

@@ -19,6 +19,7 @@ export function initMqttClient() {
     reconnectPeriod: 3000,
     connectTimeout: 10_000,
     clean: true,
+    reconnectOnConnackError: true,
   });
 
   client.on("reconnect", () => console.log("[mqtt] reconnecting..."));

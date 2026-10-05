@@ -37,6 +37,17 @@ export function registerDeviceListener(deviceId, listener) {
   };
 }
 
+export function resubscribeAll(client) {
+  subscribedTopics.clear();
+  for (const deviceId of deviceListeners.keys()) {
+    const topic = `${mqttConfig.baseTopic}/${deviceId}/data`;
+    client.subscribe(topic, { qos: mqttConfig.qos }, (err) => {
+      if (!err) subscribedTopics.add(topic);
+    });
+  }
+}
+
+
 export function setupMessageDispatcher() {
   const client = getMqttClient();
   if (!client) return;
