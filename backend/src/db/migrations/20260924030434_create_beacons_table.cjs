@@ -11,5 +11,5 @@ exports.up = function (knex) {
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable("beacons");
+  return knex.schema.dropTableIfExists("beacons");
 };
