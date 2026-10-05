@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { sendCommandToDevice } from "@/api/beacon.api.js";
 import { DETAIL_FIELDS } from "@/constants/beacon.constants.js";
 import styles from "./Tile.module.scss";
@@ -6,16 +6,16 @@ import styles from "./Tile.module.scss";
 export function Tile({ beacon, active, onSelect }) {
   const id = String(beacon.id);
   const [ledOn, setLedOn] = useState(false);
-  const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
-
+  const [pending, setPending] = useState(false);
+  const pendingRef = useRef(false);
 
   const toggleLed = async (enabled) => {
-    setPending(true);
+    if (pendingRef.current) return;
+    pendingRef.current = true;
     setMessage("");
     try {
       let response = await sendCommandToDevice(id, { action: "SET_LED", enabled });
-      console.log("response from toggleLed", response);
       if (response.ok) {
         setLedOn(enabled);
          onSelect(id);
@@ -23,6 +23,7 @@ export function Tile({ beacon, active, onSelect }) {
     } catch (err) {
       setMessage(err.message);
     } finally {
+      pendingRef.current = false;
       setPending(false);
     }
   };
@@ -45,9 +46,12 @@ export function Tile({ beacon, active, onSelect }) {
             type="checkbox"
             role="switch"
             checked={ledOn}
-            disabled={pending}
             aria-label={`LED for beacon ${id}`}
-            onChange={(event) => toggleLed(event.target.checked)}
+            disabled={pending}
+            onChange={(event) => {
+              setPending(true);
+              toggleLed(event.target.checked);
+            }}
           />
           <span className={styles.track} />
         </label>
