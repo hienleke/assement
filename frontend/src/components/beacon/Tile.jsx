@@ -3,12 +3,15 @@ import { sendCommandToDevice } from "@/api/beacon.api.js";
 import { DETAIL_FIELDS } from "@/constants/beacon.constants.js";
 import styles from "./Tile.module.scss";
 
-export function Tile({ beacon, active, onSelect }) {
+export function Tile({ beacon, messages, active, onSelect }) {
   const id = String(beacon.id);
   const [ledOn, setLedOn] = useState(false);
   const [message, setMessage] = useState("");
   const [pending, setPending] = useState(false);
   const pendingRef = useRef(false);
+  const lastMessage = messages[0];
+
+  console.log("messages data", messages);
 
   const toggleLed = async (enabled) => {
     if (pendingRef.current) return;
@@ -27,7 +30,6 @@ export function Tile({ beacon, active, onSelect }) {
       setPending(false);
     }
   };
-
   return (
     <article
       className={active ? styles.cardActive : styles.card}
@@ -62,7 +64,7 @@ export function Tile({ beacon, active, onSelect }) {
           <div key={field.key}>
             <dt>{field.label}</dt>
             <dd>
-              {beacon[field.key]}
+              {lastMessage?.payload?.[field.key] ?? beacon[field.key]}
               {field.unit ?? ""}
             </dd>
           </div>

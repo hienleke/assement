@@ -48,7 +48,9 @@ Uplink is `zena/{deviceId}/data`. Commands go to `zena/{deviceId}/cmd`. The pref
 
 ### Frontend
 
-Run these commands from `frontend`, after the API is up.
+Start this only after `http://localhost:3000` answers. The page loads beacons from that API on startup.
+
+Run these commands from `frontend`.
 
 ```bash
 cd frontend
@@ -57,9 +59,13 @@ cp .env.example .env
 npm run dev
 ```
 
-The app listens on `http://localhost:5173`. `VITE_API_URL` is the backend origin, default `http://localhost:3000`. Vite reads it only at startup, so restart after changing `.env`.
+1. `npm install` installs React, Vite, and the chart library.
+2. `cp .env.example .env` creates the env file. `VITE_API_URL` is the backend origin, default `http://localhost:3000`. Do not commit `.env`. Vite reads this file only when the dev server starts, so stop and run `npm run dev` again after you change it.
+3. `npm run dev` starts Vite. Open `http://localhost:5173`. The first paint loads `App`, which applies the shared styles and shows the `/` dashboard.
 
-`npm run build` writes `frontend/dist`. `npm run preview` serves that bundle.
+Leave that terminal open. Saving a file reloads the page. Stop the server with Ctrl+C.
+
+`npm run build` writes a production bundle to `frontend/dist`. `npm run preview` serves that bundle on a local port so you can check the build without the dev server.
 
 `App` is the shell. It loads the shared styles once, then renders whichever page matches the URL. A new screen is a component in `frontend/src/pages` plus one `{ path, Component }` entry in `frontend/src/routes/routes.js`. Any other path redirects to `/`.
 
