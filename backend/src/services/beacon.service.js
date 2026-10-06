@@ -43,7 +43,7 @@ export async function create(data) {
 
 export async function update(id, data) {
   const updated = await updateBeacon(id, data);
-  if (!updated.length) {
+  if (!updated?.length) {
     throw new AppError(ERRORS.BEACON_NOT_FOUND.message, ERRORS.BEACON_NOT_FOUND.status, ERRORS.BEACON_NOT_FOUND.code);
   }
   return updated;
@@ -51,7 +51,7 @@ export async function update(id, data) {
 
 export async function remove(id) {
   const deleted = await deleteBeacon(id);
-  if (!deleted) {
+  if (!deleted?.length) {
     throw new AppError(ERRORS.BEACON_NOT_FOUND.message, ERRORS.BEACON_NOT_FOUND.status, ERRORS.BEACON_NOT_FOUND.code);
   }
   return deleted;
