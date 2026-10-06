@@ -76,19 +76,25 @@ npm run dev
 
 1. `npm install` installs React, Vite, and the chart library.
 2. `cp .env.example .env` creates the env file. `VITE_API_URL` is the backend origin, default `http://localhost:3000`. Do not commit `.env`. Vite reads this file only when the dev server starts, so stop and run `npm run dev` again after you change it.
-3. `npm run dev` starts Vite. Open `http://localhost:5173`. The first paint loads `App`, which applies the shared styles and shows the `/` dashboard.
+3. `npm run dev` starts Vite. Open `http://localhost:5173`.
 
 Leave that terminal open. Saving a file reloads the page. Stop the server with Ctrl+C.
 
 `npm run build` writes a production bundle to `frontend/dist`. `npm run preview` serves that bundle on a local port so you can check the build without the dev server.
 
-`App` is the shell. It loads the shared styles once, then renders whichever page matches the URL. A new screen is a component in `frontend/src/pages` plus one `{ path, Component }` entry in `frontend/src/routes/routes.js`. Any other path redirects to `/`.
+### Frontend flow
 
-`/` is `MonitorPage`. The left side is a scrolling list of beacon cards. Each card shows volume, SPL, temperature, RSSI, and an LED switch. The switch calls `POST /beacons/:id/command` with `SET_LED`. The list pages with Previous and Next. The right side is the live chart for the selected beacon.
+`index.html` loads `frontend/src/main.jsx`. That file mounts `<App />` into `#root`.
 
-`useMonitor` ties that screen together. The first loaded beacon is selected once. A click updates `deviceId` immediately, but the stream waits 400 ms so rapid clicks open only one connection. That settled id loads the beacon page and opens `GET /messages/stream`. Each message is drawn at once. The chart keeps the newest 20. Changing the beacon clears the chart first.
+`App` loads the shared styles once, wraps the tree in `BrowserRouter`, and renders `<Routes>`. The route list is `frontend/src/app/router.jsx`. The parent route has no path, so it matches every URL, and its component is `MainLayout`. `MainLayout` draws the header, then `<Outlet />`. The child route `path: "/"` fills that outlet with `Home`. Any unknown path redirects to `/`.
 
-Beacon cards live in `frontend/src/components/beacon`. The chart lives in `frontend/src/components/message`. HTTP calls live in `frontend/src/api` and always use `VITE_API_URL`.
+`Home` is the dashboard. The left side is a scrolling list of beacon cards. Each card shows volume, SPL, temperature, RSSI, and an LED switch. The switch calls `POST /beacons/:id/command` with `SET_LED`. The list pages with Previous and Next. The right side is the live chart for the selected beacon.
+
+`useMonitor` ties that screen together. `useDevices` loads `GET /beacons`. The first loaded beacon is selected once. A click updates `deviceId` immediately, but the stream waits 400 ms so rapid clicks open only one connection. That settled id opens `GET /messages/stream`. Each message is drawn at once. The chart keeps the newest 20. Changing the beacon clears the chart first.
+
+A new screen is a component in `frontend/src/pages` plus one child entry in `router.jsx`. The header stays. Only the outlet changes.
+
+Beacon cards live in `frontend/src/components/device/DeviceCard`. The chart lives in `frontend/src/components/message`. HTTP calls go through `frontend/src/lib/http.js` and always use `VITE_API_URL`.
 
 ## API
 
@@ -114,9 +120,11 @@ backend/src/repositories/        read and write the database
 backend/src/schema/              request validation
 backend/src/mqtt/                connection, subscribe, and publish
 backend/src/db/                  Knex client, migrations, and seeds
-frontend/src/main.jsx            mount React
-frontend/src/App.jsx             shared styles and router
-frontend/src/routes/routes.js    path to page component
-frontend/src/pages/              screens
-frontend/src/components/         beacon card and live chart
+frontend/src/main.jsx                 mount React
+frontend/src/app/App.jsx              styles, router, and routes
+frontend/src/app/router.jsx           path to page component
+frontend/src/layouts/MainLayout/      header and page outlet
+frontend/src/pages/Home/              dashboard
+frontend/src/components/device/       beacon card
+frontend/src/components/message/      live chart
 ```
