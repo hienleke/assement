@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchBeacon, fetchBeacons } from "@/api/beacon.api.js";
+import { fetchBeacon, fetchBeacons } from "@/api/device.api.js";
 
 const EMPTY_PAGE = { page: 1, limit: 10, total: 0, totalPages: 1 };
 
-export function useBeacons(deviceId) {
+export function useDevices(deviceId) {
   const [beacons, setBeacons] = useState([]);
   const [pagination, setPagination] = useState(EMPTY_PAGE);
   const [selected, setSelected] = useState(null);

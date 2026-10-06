@@ -71,7 +71,6 @@ export async function sendCommandToDevice(deviceId, payload) {
 
   const commandPayload = handler(payload);
   try {
-    console.log("publishMqtt", topic, commandPayload);
     await publishMqtt(topic, commandPayload);
     return { ok: true, topic, commandPayload };
   } catch (err) {

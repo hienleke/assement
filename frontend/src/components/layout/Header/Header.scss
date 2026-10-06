@@ -1,0 +1,34 @@
+@use "tokens";
+
+.header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  height: 3.25rem;
+  padding: 0 1.25rem;
+  border-bottom: 1px solid tokens.$line;
+  background: tokens.$card;
+}
+
+.header__brand {
+  margin: 0;
+  color: tokens.$accent;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.header__nav a {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  color: tokens.$muted;
+  font-size: 0.85rem;
+  text-decoration: none;
+
+  &[aria-current="page"] {
+    color: tokens.$accent;
+    background: tokens.$ok-bg;
+  }
+}

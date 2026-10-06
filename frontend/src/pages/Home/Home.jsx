@@ -1,16 +1,15 @@
 import { MessageList } from "@/components/message/MessageList.jsx";
-import { Tile } from "@/components/beacon/Tile.jsx";
+import { DeviceCard } from "@/components/device/DeviceCard/DeviceCard.jsx";
 import { useMonitor } from "@/hooks/useMonitor.js";
-import styles from "./MonitorPage.module.scss";
+import styles from "./Home.module.scss";
 
-export function MonitorPage() {
+export function Home() {
   const { deviceId, setDeviceId, beacons, pagination, setPage, error, messages, streamStatus } =
     useMonitor();
 
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <p className={styles.eyebrow}>Assessment</p>
         <h1 className={styles.title}>Beacon dashboard</h1>
         {error ? <p className={styles.error}>{error}</p> : null}
       </header>
@@ -28,7 +27,7 @@ export function MonitorPage() {
                 const id = String(beacon.id);
                 return (
                   <li key={id}>
-                    <Tile
+                    <DeviceCard
                       beacon={beacon}
                       messages={id === deviceId ? messages : null}
                       active={id === deviceId}

@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
-import { sendCommandToDevice } from "@/api/beacon.api.js";
-import { DETAIL_FIELDS } from "@/constants/beacon.constants.js";
-import styles from "./Tile.module.scss";
+import { sendCommandToDevice } from "@/api/device.api.js";
+import { DETAIL_FIELDS } from "@/constants/device.constants.js";
+import styles from "./DeviceCard.module.scss";
 
-export function Tile({ beacon, messages, active, onSelect }) {
+export function DeviceCard({ beacon, messages, active, onSelect }) {
   const id = String(beacon.id);
   const [ledOn, setLedOn] = useState(false);
   const [message, setMessage] = useState("");

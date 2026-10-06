@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue.js";
-import { useBeacons } from "@/hooks/useBeacons.js";
+import { useDevices } from "@/hooks/useDevices.js";
 import { MAX_MESSAGES } from "@/constants/message.constants.js";
-import { useMessageStream } from "@/hooks/useMessageStream.js";
+import { useDeviceStream } from "@/hooks/useDeviceStream.js";
 import { DEVICE_ID_DEBOUNCE_MS } from "@/constants/monitor.constants.js";
 export function useMonitor() {
   const [deviceId, setDeviceId] = useState("");
@@ -10,7 +10,7 @@ export function useMonitor() {
   const activeDeviceId = useDebouncedValue(deviceId.trim(), DEVICE_ID_DEBOUNCE_MS);
   const messageSeq = useRef(0);
 
-  const { beacons, pagination, setPage, selected, error } = useBeacons(activeDeviceId);
+  const { beacons, pagination, setPage, selected, error } = useDevices(activeDeviceId);
 
   const pushMessage = useCallback((message) => {
     messageSeq.current += 1;
@@ -18,7 +18,7 @@ export function useMonitor() {
     setMessages((current) => [next, ...current].slice(0, MAX_MESSAGES));
   }, []);
 
-  const streamStatus = useMessageStream(activeDeviceId, pushMessage);
+  const streamStatus = useDeviceStream(activeDeviceId, pushMessage);
 
   useEffect(() => {
     setMessages([]);

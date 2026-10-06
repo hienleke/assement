@@ -3,7 +3,7 @@ import { messageStreamUrl } from "@/api/message.api.js";
 import { STREAM_STATUS } from "@/constants/message.constants.js";
 import { safeJsonParse } from "@/utils/json.js";
 
-export function useMessageStream(deviceId, onMessage) {
+export function useDeviceStream(deviceId, onMessage) {
   const [status, setStatus] = useState(STREAM_STATUS.IDLE);
   const onMessageRef = useRef(onMessage);
 
