@@ -96,6 +96,14 @@ A new screen is a component in `frontend/src/pages` plus one child entry in `rou
 
 Beacon cards live in `frontend/src/components/device/DeviceCard`. The chart lives in `frontend/src/components/message`. HTTP calls go through `frontend/src/lib/http.js` and always use `VITE_API_URL`.
 
+### Open issues
+
+These limits show up as more browser sessions use the same API, and when more than one API process is deployed.
+
+**Several API instances subscribe the same topic.** `subscribedTopics` and `deviceListeners` live in the memory of one process. They are not shared. Each instance opens its own MQTT connection and, when a browser on that instance selects a device, subscribes to `zena/{deviceId}/data` by itself. A second instance does not see that the first one already subscribed, so the broker holds the same topic once per instance and delivers each uplink to every instance. Downstream, the same message is handled again on each process. Sharing one `MQTT_CLIENT_ID` does not merge those sets. The broker drops the older session instead.
+
+**Live values follow only the selected device.** `Home` opens one stream, `GET /messages/stream?deviceId=` for the debounced selection. `messages` is passed only to the card whose id equals that selection. Every other card keeps the Postgres row. The stream does not write those messages back to the `beacons` table, so an unselected card does not move until it is selected. Choosing another beacon closes the previous stream, clears the chart, and drops the MQTT subscription when that device has no listener left. Updating every visible card needs either one stream per device on the current page, or one wildcard subscription whose messages are split by device id. Subscribing the whole table grows without a bound. The current page is the bound that matches the screen.
+
 ## API
 
 - `GET /beacons?page=1&limit=10` returns `{ data, pagination }`.
